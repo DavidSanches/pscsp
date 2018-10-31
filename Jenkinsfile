@@ -5,17 +5,9 @@ pipeline {
     }
     stages {
         stage ('Build') {
-            //steps {
-            //    sh "mvn -U clean test cobertura:cobertura -Dcobertura.report.format=xml"
-            //}
-            //post {
-            //    always {
-            //        junit '**/target/*-reports/TEST-*.xml'
-            //        step([$class: 'CoberturaPublisher', coberturaReportFile: 'target/site/cobertura/coverage.xml'])
-            //    }
-            //}
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install'
+				stash includes: 'src/main/**, pom.xml', name: 'ws-src' 
             }
             post {
                 success {
@@ -30,7 +22,8 @@ pipeline {
                     scannerHome = tool 'sq-scanner'
                 }
                 withSonarQubeEnv('Local SonarQube') {
-                    sh "${scannerHome}/bin/sonar-runner -Dsonar.projectKey=me.david:paint-shop"
+				    unstash 'ws-src'
+                    sh "${scannerHome}/bin/sonar-runner -Dsonar.projectKey=me.david:paint-shop -Dsonar.sources=src/main/**,pom.xml"
                 }
             }
         }
