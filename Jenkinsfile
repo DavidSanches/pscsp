@@ -23,7 +23,7 @@ pipeline {
                 }
                 withSonarQubeEnv('Local SonarQube') {
 				    unstash 'ws-src'
-                    sh "${scannerHome}/bin/sonar-runner -Dsonar.projectKey=me.david:paint-shop -Dsonar.sources=src/main/**,pom.xml"
+                    sh "${scannerHome}/bin/sonar-runner -Dsonar.projectKey=me.david:paint-shop -Dsonar.sources=src/main/java/**,pom.xml"
                 }
             }
         }
