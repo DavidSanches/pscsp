@@ -69,7 +69,7 @@ We could try to use a [SAT solver](https://en.wikipedia.org/wiki/Category:SAT_so
 but those are generally not optimised and expensive to run in practice.
 An alternative is to use a search strategy.
 
-### Implementation
+## Implementation
 I decided to use a basic search strategy: we just generate all
 possible combinations of paints and check each against the consumer taste.
 We then return the first cheapest found.
