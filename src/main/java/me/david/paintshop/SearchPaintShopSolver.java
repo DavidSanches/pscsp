@@ -68,8 +68,10 @@ public class SearchPaintShopSolver implements PaintShopSolver {
     }
 
     /**
-     * return true if customer tastes are satified by a paint combination
-     * represented as a String
+     * return true if customer tastes are satisfied by a paint combination
+     * represented as a String.
+     * <p>Notice that the <code>allMatch</code> implementation returns early when a
+     * falsy expression is met.</p>
      *
      * @param combination string representation of the {@link #nbPaints} (e.g. GGGGM, GMGMG,...)
      * @return true if all satisfied, else false
@@ -100,7 +102,6 @@ public class SearchPaintShopSolver implements PaintShopSolver {
             }
             return res;
         }
-
     }
 
     public List<String> getCustomerTastes() {

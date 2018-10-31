@@ -61,4 +61,9 @@ class PaintShopProblemTest {
                 "5 M");
     }
 
+    @Test
+    void testSolutions_customerTastesNotIncludingAllBatches_shouldReturnOneBatchForEachColor() throws IOException {
+        testWithFileInAndExpectedContentFile("example-not-all-paint-expressed.txt",
+                "example-not-all-paint-expressed_expected.txt");
+    }
 }

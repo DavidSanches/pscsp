@@ -65,14 +65,23 @@ n = 5
 (¬X1 ∨ X3 ∨ X5) ∧ (X2 ∨ ¬X3 ∨ X4) ∧ (¬X5)
 ```
 
-We could try to use a [SAT solver](https://en.wikipedia.org/wiki/Category:SAT_solvers)
-but those are generally not optimised and expensive to run in practice.
-An alternative is to use a search strategy.
+We could try to find ways to simplify (reduce) the expressions and
+explore [SAT solvers](https://en.wikipedia.org/wiki/Category:SAT_solvers)
+but here, the best feasible strategy seems more to use a search
+algorithm.
 
 ## Implementation
 I decided to use a basic search strategy: we just generate all
-possible combinations of paints and check each against the consumer taste.
+possible combinations of paints and test each against all the consumer
+tastes.
 We then return the first cheapest found.
+
+
+One easy way to improve the search is to try to sort the customer tastes
+from the most restrictive to the least restrictive in order to rule out
+a paint batch as early as possible.
+Class `SearchPaintShopSolver` sorts the customer tastes by
+`CustomerTaste::count` for that reason.
 
 ### Time Complexity analysis
 Let's assume we have `n` paints and `k` customers.

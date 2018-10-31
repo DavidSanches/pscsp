@@ -3,8 +3,7 @@ package me.david.paintshop;
 import me.david.paintshop.exceptions.PaintShopInputRuntimeException;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
 
 import static me.david.paintshop.exceptions.PaintShopError.INVALID_CUSTOMER_TASTE;
 import static me.david.paintshop.exceptions.PaintShopError.INVALID_INPUT_FILE_NUMBER_OF_PAINTS;
@@ -99,6 +98,17 @@ class SearchPaintShopSolverTest {
         assertThat(solver.getNbPaints()).isEqualTo(5);
         assertThat(solver.solutions())
                 .contains("GGGGM")
+                .allMatch(sol -> sol.length() == solver.getNbPaints()); //There is just one batch for each color, and it's either gloss or matte.
+    }
+
+    @Test
+    void testSolve_definitionAndCustTastesGiven_shouldReturnOneBatchForEachColor() {
+        SearchPaintShopSolver solver = new SearchPaintShopSolver(new LinkedList<>(
+                Arrays.asList("3", "1M", "3M"))); //nothing about paint 2
+
+        assertThat(solver.getNbPaints()).isEqualTo(3);
+        assertThat(solver.solutions())
+                .contains("MGM", "MMM")
                 .allMatch(sol -> sol.length() == solver.getNbPaints()); //There is just one batch for each color, and it's either gloss or matte.
     }
 
