@@ -11,7 +11,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 class PaintFinishTest {
 
     @Test
-    void testPaintFinishCost_shouldEnsureGlossIsCheapestThanMatte() {
+    void testPaintFinishCost_shouldEnsureGlossIsCheaperThanMatte() {
         assertThat(PaintFinish.G.cost())
                 .isLessThan(PaintFinish.M.cost());
     }
