@@ -30,7 +30,7 @@ pipeline {
                     scannerHome = tool 'sq-scanner'
                 }
                 withSonarQubeEnv('Local SonarQube') {
-                    //sh "${scannerHome}/bin/sonar-runner -Dsonar.projectKey=PaintShop"
+                    sh "${scannerHome}/bin/sonar-runner -Dsonar.projectKey=PaintShop"
                 }
             }
         }
