@@ -125,7 +125,7 @@ java -jar target/paint-shop-1.0-SNAPSHOT.jar src/test/resources/example1.txt
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Manual deployment can be done by copying folder `lib` and jar file `paint-shop-*.jar` from `target` folder.
 
 ## Built With
 
