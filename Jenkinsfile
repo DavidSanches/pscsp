@@ -7,7 +7,7 @@ pipeline {
         stage ('Build') {
             steps {
                 sh 'mvn -Dmaven.test.failure.ignore=true install'
-				stash includes: 'src/main/**, pom.xml', name: 'ws-src' 
+				stash includes: 'src/main/**,pom.xml,target/classes/**', name: 'ws-src' 
             }
             post {
                 success {
@@ -23,7 +23,7 @@ pipeline {
                 }
                 withSonarQubeEnv('Local SonarQube') {
 				    unstash 'ws-src'
-                    sh "${scannerHome}/bin/sonar-runner -Dsonar.projectKey=me.david:paint-shop -Dsonar.sources=src/main/java,pom.xml"
+                    sh "${scannerHome}/bin/sonar-runner -Dsonar.projectKey=me.david:paint-shop -Dsonar.sources=src/main/java,pom.xml -Dsonar.java.binaries=target/classes"
                 }
             }
         }
