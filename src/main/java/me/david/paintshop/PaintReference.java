@@ -1,9 +1,14 @@
 package me.david.paintshop;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+
 /**
  * Represents one paint reference.
  * Composed of a paint index (1 based) and a {@link PaintFinish}
  */
+@EqualsAndHashCode
+@AllArgsConstructor
 public class PaintReference {
 
     /**
@@ -15,10 +20,7 @@ public class PaintReference {
     public PaintReference(String index, String finish) {
         this(Integer.valueOf(index), PaintFinish.valueOf(finish));
     }
-    public PaintReference(int index, PaintFinish finish) {
-        this.index = index;
-        this.finish = finish;
-    }
+
 
     public int index() {
         return index;
@@ -28,21 +30,4 @@ public class PaintReference {
         return finish;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PaintReference that = (PaintReference) o;
-
-        if (index != that.index) return false;
-        return finish == that.finish;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = index;
-        result = 31 * result + (finish != null ? finish.hashCode() : 0);
-        return result;
-    }
 }

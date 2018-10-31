@@ -56,14 +56,10 @@ public class SearchPaintShopSolver implements PaintShopSolver {
     @Override
     public List<String> solutions() {
         List<String> allCombinations = this.combinePaints(this.nbPaints);
-        List<String> solutions = new LinkedList<>();
-        for (String combination : allCombinations) {
-            if (allCustomerTastesAreSatisfiedBy(combination)) {
-                solutions.add(combination);
-            }
-        }
-        LOGGER.debug("allCombinations - length: {}", allCombinations.size());
-        LOGGER.debug("solutions - length: {}", solutions.size());
+        List<String> solutions = allCombinations.parallelStream()
+                .filter(combination -> allCustomerTastesAreSatisfiedBy(combination))
+                .collect(Collectors.toList());
+        LOGGER.debug("allCombinations - length: {} and solutions - length: {}", allCombinations.size(), solutions.size());
         return solutions;
     }
 
