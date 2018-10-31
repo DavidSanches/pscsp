@@ -14,20 +14,22 @@ pipeline {
                 }
             }
         }
-        stage('Analysis') {
+        stage('SonarQube analysis') {
             withSonarQubeEnv('Local SonarQube') {
-                sh "/opt/sonar-runner/bin/sonar-runner -X -e"
+              sh "/opt/sonar-runner/bin/sonar-runner -X -e"
             }
             step([$class: 'JacocoPublisher',
                     execPattern:'**/**.exec',
                     classPattern: '**/classes/main',
                     sourcePattern: '**/src/main/java',
                     exclusionPattern: '**/*Test*.class'])
-            timeout(time: 10, unit: 'MINUTES') {
-                def qg = waitForQualityGate()
-                if (qg.status != 'OK') {
-                    error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                }
+        }
+        stage("SonarQube Quality Gate") {
+            timeout(time: 1, unit: 'HOURS') {
+               def qg = waitForQualityGate()
+               if (qg.status != 'OK') {
+                 error "Pipeline aborted due to quality gate failure: ${qg.status}"
+               }
             }
         }
     }
