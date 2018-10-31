@@ -5,20 +5,42 @@ pipeline {
     }
     stages {
         stage ('Build') {
+            //steps {
+            //    sh "mvn -U clean test cobertura:cobertura -Dcobertura.report.format=xml"
+            //}
+            //post {
+            //    always {
+            //        junit '**/target/*-reports/TEST-*.xml'
+            //        step([$class: 'CoberturaPublisher', coberturaReportFile: 'target/site/cobertura/coverage.xml'])
+            //    }
+            //}
             steps {
-                sh "mvn -U clean test cobertura:cobertura -Dcobertura.report.format=xml"
+                sh 'mvn -Dmaven.test.failure.ignore=true install'
             }
             post {
-                always {
-                    junit '**/target/*-reports/TEST-*.xml'
-                    step([$class: 'CoberturaPublisher', coberturaReportFile: 'target/site/cobertura/coverage.xml'])
+                success {
+                    junit 'target/surefire-reports/**/*.xml'
                 }
             }
         }
-        stage('Sonar') {
+        stage('SonarQube analysis') {
             steps {
-                sh "mvn sonar:sonar -Dsonar.host.url=http://localhost:9000"
+                script {
+                  // requires SonarQube Scanner 2.8+
+                    scannerHome = tool 'sq-scanner'
+                }
+                withSonarQubeEnv('SonarQube Scanner') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
             }
         }
+        //stage("SonarQube Quality Gate") {
+        //    timeout(time: 1, unit: 'HOURS') {
+        //       def qg = waitForQualityGate()
+        //       if (qg.status != 'OK') {
+        //         error "Pipeline aborted due to quality gate failure: ${qg.status}"
+        //       }
+        //    }
+        //}
     }
 }

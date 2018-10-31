@@ -12,7 +12,10 @@ import java.nio.file.Paths;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//@Ignore
+/**
+ * Unit test for main class PaintShop.
+ * Uses SystemRules for instrumenting 'System'
+ */
 public class PaintShopTest {
 
     @Rule
@@ -30,8 +33,8 @@ public class PaintShopTest {
         String[] args = null;
         PaintShop.main(args);
         assertThat(systemErrRule.getLogWithNormalizedLineSeparator())
-                .isEqualTo(exceptions.PaintShopError.COMMAND_LINE_INVALID_ARGS.getDescription()+
-                "\n");
+                .isEqualTo(exceptions.PaintShopError.COMMAND_LINE_INVALID_ARGS.getDescription() +
+                        "\n");
     }
 
     @Test

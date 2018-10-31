@@ -78,40 +78,6 @@ public class CustomerTaste {
         }
     }
 
-//    /**
-//     * @return a {@link Predicate} that ensures the customer paint taste
-//     * representation is valid, i.e.:
-//     * <ul>
-//     * <li>the color paint index is &lt; the total number of paints</li>
-//     * <li>the finish is either G or M</li>
-//     * </ul>
-//     * <p>For a nb paint of 3, valid formats are: "1 M", "2 M 3 G"</p>
-//     * <p>For a nb paint of 11, valid formats are: "1 M 10G 11M", "2 M 3 G"</p>
-//     * <p>If an exception is thrown, the predicate returns <code>false</code>.</p>
-//     */
-//    protected Predicate<String> validCustomerTastePredicate() {
-//        return customerTaste -> {
-//            try {
-//                return Arrays
-//                        .stream(customerTaste.split("(?<=[M|G])"))
-//                        .map(taste -> {
-//                            String trimmed = taste.trim();
-//                            int length = trimmed.length();
-//                            return new String[]{
-//                                    trimmed.substring(0, length - 1).trim(),
-//                                    trimmed.substring(length - 1)
-//                            };
-//                        })
-//                        .allMatch(tuple ->
-//                                Integer.valueOf(tuple[0]) <= nbPaints &&
-//                                        (PaintFinish.G.name().equals(tuple[1]) || PaintFinish.M.name().equals(tuple[1])));
-//            } catch (Exception exception) {
-//                LOGGER.info("Error parsing customer taste: {}", customerTaste, exception);
-//                return false;
-//            }
-//        };
-//    }
-
 
     public Set<PaintReference> paintReferences() {
         return paintReferences;
