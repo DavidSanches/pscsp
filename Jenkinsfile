@@ -30,7 +30,8 @@ pipeline {
                     scannerHome = tool 'sq-scanner'
                 }
                 withSonarQubeEnv('Local SonarQube') {
-                    sh "${scannerHome}/bin/sonar-runner -Dsonar.projectKey=PaintShop -Dsonar.sources=./src/main/java"
+                    //sh "${scannerHome}/bin/sonar-runner -Dsonar.projectKey=PaintShop -Dsonar.sources=./src/main/java"
+                    mvn -e -B org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar -Dsonar.host.url=http://localhost:9000 
                 }
             }
         }
