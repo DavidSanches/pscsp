@@ -6,30 +6,18 @@ pipeline {
     stages {
         stage ('Build') {
             steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install'
+                sh "mvn -U clean test cobertura:cobertura -Dcobertura.report.format=xml"
             }
             post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml'
+                always {
+                    junit '**/target/*-reports/TEST-*.xml'
+                    step([$class: 'CoberturaPublisher', coberturaReportFile: 'target/site/cobertura/coverage.xml'])
                 }
             }
         }
-        stage('SonarQube analysis') {
-            withSonarQubeEnv('Local SonarQube') {
-              sh "/opt/sonar-runner/bin/sonar-runner -X -e"
-            }
-            step([$class: 'JacocoPublisher',
-                    execPattern:'**/**.exec',
-                    classPattern: '**/classes/main',
-                    sourcePattern: '**/src/main/java',
-                    exclusionPattern: '**/*Test*.class'])
-        }
-        stage("SonarQube Quality Gate") {
-            timeout(time: 1, unit: 'HOURS') {
-               def qg = waitForQualityGate()
-               if (qg.status != 'OK') {
-                 error "Pipeline aborted due to quality gate failure: ${qg.status}"
-               }
+        stage('Sonar') {
+            steps {
+                sh "mvn sonar:sonar -Dsonar.host.url=http://localhost:9000"
             }
         }
     }
