@@ -10,12 +10,15 @@ import static me.david.paintshop.exceptions.PaintShopError.INVALID_CUSTOMER_TAST
 import static me.david.paintshop.exceptions.PaintShopError.INVALID_INPUT_FILE_NUMBER_OF_PAINTS;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-class PaintShopSolverTest {
+/**
+ * Unit test for {@link SearchPaintShopSolver}
+ */
+class SearchPaintShopSolverTest {
 
     @Test
     void testConstructor_invalidTasteGiven_shouldThrownException() {
         try {
-            new PaintShopSolver(new LinkedList<>(Arrays.asList("3", "1G2G4M")));
+            new SearchPaintShopSolver(new LinkedList<>(Arrays.asList("3", "1G2G4M")));
 
         } catch (Exception e) {
             assertThat(e)
@@ -30,7 +33,7 @@ class PaintShopSolverTest {
     @Test
     void testFindSolutions_customerWithMoreThatOneMatteTaste_shouldThrowException() {
         try {
-            PaintShopSolver solver = new PaintShopSolver(new LinkedList<>(
+            PaintShopSolver solver = new SearchPaintShopSolver(new LinkedList<>(
                     Arrays.asList("3", "1M", "1M2M", "2G")));
 
             assertThat(solver.solutions())
@@ -48,7 +51,7 @@ class PaintShopSolverTest {
     @Test
     void testPaintShopSolver_nonIntegerFirstLineGiven_shouldThrowAPaintShopInputRuntimeException() {
         try {
-            new PaintShopSolver(new LinkedList<>(
+            new SearchPaintShopSolver(new LinkedList<>(
                     Arrays.asList("a", "1G2G3M")));
 
         } catch (Exception e) {
@@ -63,7 +66,7 @@ class PaintShopSolverTest {
     @Test
     void testPaintShopSolver_invalidColorIndexGiven_shouldThrowAPaintShopInputRuntimeException() {
         try {
-            new PaintShopSolver(new LinkedList<>(
+            new SearchPaintShopSolver(new LinkedList<>(
                     Arrays.asList("3", "1G4M")));
 
         } catch (Exception e) {
@@ -79,7 +82,7 @@ class PaintShopSolverTest {
     @Test
     void testPaintShopSolver_numberAndInputCustomertastesGiven_shouldExtractNumberAndSortTastes() {
 
-        PaintShopSolver solver = new PaintShopSolver(new LinkedList<>(
+        SearchPaintShopSolver solver = new SearchPaintShopSolver(new LinkedList<>(
                 Arrays.asList("3", "1G2G3M", "3M", "2G3M")));
 
         assertThat(solver.getNbPaints()).isEqualTo(3);
@@ -90,7 +93,7 @@ class PaintShopSolverTest {
 
     @Test
     void testSolve_definitionAndCustTastesGiven_shouldFindASetOfSolutionsEachWithCorrectSize() {
-        PaintShopSolver solver = new PaintShopSolver(new LinkedList<>(
+        SearchPaintShopSolver solver = new SearchPaintShopSolver(new LinkedList<>(
                 Arrays.asList("5", "1M3G5G", "2G3M4G", "5M")));
 
         assertThat(solver.getNbPaints()).isEqualTo(5);
@@ -101,7 +104,7 @@ class PaintShopSolverTest {
 
     @Test
     void testSolve_insatisfiableProblemGiven_shouldReturnEmptyList() {
-        PaintShopSolver solver = new PaintShopSolver(new LinkedList<>(
+        PaintShopSolver solver = new SearchPaintShopSolver(new LinkedList<>(
                 Arrays.asList("3", "1M", "2G", "1G2M")));
 
         assertThat(solver.solutions())

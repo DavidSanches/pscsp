@@ -49,12 +49,16 @@ public class PaintShopProblem {
     }
 
     /**
+     * Get the list of solution from a {@link PaintShopSolver} and return the one of the cheapest found. Cost is
+     * based on {@link PaintBatches#cost}.
+     * <p>Uses an instance of {@link SearchPaintShopSolver}</p>
+     *
      * @return the cheapest solution to the paint shop problem as a {@link String}
      * representation of the <code>n</code> paints
      */
     private String cheapestSolution() {
         long startTime = System.nanoTime();
-        PaintShopSolver solver = new PaintShopSolver(
+        SearchPaintShopSolver solver = new SearchPaintShopSolver(
                 this.problemDefinition());
         List<String> solutions = solver.solutions();
 
@@ -83,7 +87,7 @@ public class PaintShopProblem {
     Deque<String> problemDefinition() {
         try (BufferedReader reader = Files.newBufferedReader(this.input.toPath(), DEFAULT_CHARSET)) {
             Deque<String> result = new LinkedList<>();
-            for (;;) {
+            for (; ; ) {
                 String line = reader.readLine();
                 if (line == null)
                     break;

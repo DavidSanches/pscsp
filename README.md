@@ -67,6 +67,42 @@ n = 5
 
 We could try to use a [SAT solver](https://en.wikipedia.org/wiki/Category:SAT_solvers)
 but those are generally not optimised and expensive to run in practice.
+An alternative is to use a search strategy.
+
+### Implementation
+I decided to use a basic search strategy: we just generate all
+possible combinations of paints and check each against the consumer taste.
+We then return the first cheapest found.
+
+### Time Complexity analysis
+Let's assume we have `n` paints and `k` customers.
+Generating all combinations takes 2^n, so a complexity of `O(2^n)`.
+For each combination, we iterate over each of the `k` customers.
+So, we're at `O(k.2^n)`.
+
+I don't think it's worth including the complexity due to the
+number of paints into the customer tastes, as we'll have to make
+assumptions (e.g. in average a customer likes `1/n` paints) that are:
+1/ based on no data, 2/ not necessary relevant.
+
+We could add the sorting of the solutions into the equation.
+It looks like the `stream.sorted()` sort implementation of
+non-already-sorted streams
+(the case for the moment, and maybe an area of improvement) is a
+[Timsort](https://en.wikipedia.org/wiki/Timsort), which has a wort case
+of `O(n log n)`.
+We could make some assumptions and add-up this part but it would not be
+much relevant.
+
+Overall time complexity is made by the core problem solving: `O(k.2^n)`.
+
+### Space Complexity analysis
+This analysis is very close to the time complexity: `O(k.2^n)` for the
+code problem solving.
+The Timsort Worst-case space complexity is `O(n)`.
+
+So, again, a global complexity of `O(k.2^n)`.
+
 
 ## Getting Started
 
