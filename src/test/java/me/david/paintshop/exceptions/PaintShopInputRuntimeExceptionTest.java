@@ -10,7 +10,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 class PaintShopInputRuntimeExceptionTest {
 
     @Test
-    public void exceptionWithAdviceGiven_shouldConcatenateTheMessageAndErrorDescription() {
+    void exceptionWithAdviceGiven_shouldConcatenateTheMessageAndErrorDescription() {
         PaintShopError error = PaintShopError.COMMAND_LINE_INVALID_ARGS;
         String someAdvice = "some advice";
         Throwable t = new Throwable("fake throwable");
@@ -21,7 +21,7 @@ class PaintShopInputRuntimeExceptionTest {
     }
 
     @Test
-    public void exceptionWithNoAdviceGiven_shouldConcatenateTheMessageAndErrorDescription() {
+    void exceptionWithNoAdviceGiven_shouldConcatenateTheMessageAndErrorDescription() {
         PaintShopError error = PaintShopError.COMMAND_LINE_INVALID_ARGS;
         Throwable t = new Throwable("fake throwable");
         Exception exception = new PaintShopInputRuntimeException(error, t);

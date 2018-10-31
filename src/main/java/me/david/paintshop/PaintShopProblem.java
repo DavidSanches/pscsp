@@ -5,16 +5,14 @@ import me.david.paintshop.exceptions.PaintShopInputRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 
 /**
@@ -35,7 +33,7 @@ public class PaintShopProblem {
 
     private final File input;
 
-    public PaintShopProblem(String filename) throws FileNotFoundException {
+    PaintShopProblem(String filename) throws FileNotFoundException {
         this.input = new File(filename);
         if (!input.exists() || !input.isFile()) {
             throw new FileNotFoundException("Given Filename is incorrect");
@@ -67,12 +65,9 @@ public class PaintShopProblem {
                         .sorted(Comparator.comparingInt(PaintBatches::cost)) //sort by cost "You make as few mattes as possible (because they are more expensive)"
                         .findFirst();
 
-        final String solution;
-        if (cheapestSolution.isPresent()) {
-            solution = cheapestSolution.get().toString();
-        } else {
-            solution = NO_SOLUTION_FOUND;
-        }
+        final String solution = cheapestSolution
+                .map(PaintBatches::toString)
+                .orElse(NO_SOLUTION_FOUND);
         long endTime = System.nanoTime();
         long durationNs = endTime - startTime;//ns = nanoseconds (/1_000_000 to get ms)
         LOGGER.info("{\"elapsed_ns\": {},\"nbpaints\":{},\"solution\":\"{}\"}",
@@ -85,9 +80,17 @@ public class PaintShopProblem {
     /**
      * @return the problem definition from the given file
      */
-    List<String> problemDefinition() {
-        try {
-            return Files.readAllLines(this.input.toPath(), DEFAULT_CHARSET);
+    Deque<String> problemDefinition() {
+        try (BufferedReader reader = Files.newBufferedReader(this.input.toPath(), DEFAULT_CHARSET)) {
+            Deque<String> result = new LinkedList<>();
+            for (;;) {
+                String line = reader.readLine();
+                if (line == null)
+                    break;
+                result.add(line);
+            }
+            return result;
+
         } catch (IOException e) {
             throw new PaintShopInputRuntimeException(
                     PaintShopError.INVALID_INPUT_FILE,

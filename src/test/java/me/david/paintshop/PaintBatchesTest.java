@@ -1,9 +1,6 @@
 package me.david.paintshop;
 
-import me.david.paintshop.PaintBatches;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -45,7 +42,7 @@ class PaintBatchesTest {
 
 
     @Test
-    void testSolutionRepresentation_spacelessRepresentationGiven_shouldReturnWithSpacesAsExpectedFormat() throws FileNotFoundException {
+    void testSolutionRepresentation_spacelessRepresentationGiven_shouldReturnWithSpacesAsExpectedFormat() {
         assertThat(new PaintBatches("GGGGM").toString())
                 .isEqualTo("G G G G M");
     }

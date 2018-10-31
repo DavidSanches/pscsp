@@ -1,17 +1,15 @@
 package me.david.paintshop;
 
-import me.david.paintshop.PaintShop;
 import org.junit.Rule;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.*;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import org.junit.contrib.java.lang.system.SystemErrRule;
+import org.junit.contrib.java.lang.system.SystemOutRule;
 
-import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit test for main class me.david.paintshop.PaintShop.
@@ -29,7 +27,7 @@ public class PaintShopTest {
     public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
     @Test
-    public void testMainMethod_NoArgGiven_shouldWriteErrorMessageInSystemErr() throws FileNotFoundException {
+    public void testMainMethod_NoArgGiven_shouldWriteErrorMessageInSystemErr() {
         exit.expectSystemExitWithStatus(1);
         String[] args = null;
         PaintShop.main(args);
@@ -39,7 +37,7 @@ public class PaintShopTest {
     }
 
     @Test
-    public void testMainMethod_validFilenameAsOnlyArgumentGiven_shouldWriteResultInSystemOut() throws FileNotFoundException {
+    public void testMainMethod_validFilenameAsOnlyArgumentGiven_shouldWriteResultInSystemOut() {
         exit.expectSystemExitWithStatus(0);
 
         Path testResourcesPath = Paths.get("src", "test", "resources");

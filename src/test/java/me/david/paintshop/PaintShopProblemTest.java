@@ -1,6 +1,5 @@
 package me.david.paintshop;
 
-import me.david.paintshop.PaintShopProblem;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -8,12 +7,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Deque;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 class PaintShopProblemTest {
-    Path testResourcesPath = Paths.get("src", "test", "resources");
+    private final Path testResourcesPath = Paths.get("src", "test", "resources");
 
     @Test
     void example1Given_shouldFindExpectedSolution1() throws IOException {
@@ -36,7 +35,7 @@ class PaintShopProblemTest {
                 "example4_expected.txt");
     }
 
-    void testWithFileInAndExpectedContentFile(String fin, String fexpected) throws IOException {
+    private void testWithFileInAndExpectedContentFile(String fin, String fexpected) throws IOException {
         Path input = testResourcesPath.resolve(fin);
         Path expectedFileName = testResourcesPath.resolve(fexpected);
 
@@ -53,7 +52,7 @@ class PaintShopProblemTest {
     void inputFileGiven_shouldTransformLinesIntoList() throws FileNotFoundException {
         Path input = testResourcesPath.resolve("example1.txt");
 
-        List<String> inputLines = new PaintShopProblem(input.toString())
+        Deque<String> inputLines = new PaintShopProblem(input.toString())
                 .problemDefinition();
         assertThat(inputLines).contains(
                 "5",

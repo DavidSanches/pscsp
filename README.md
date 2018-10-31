@@ -1,4 +1,4 @@
-# Programming challenge - The Paint Shop (a.k.a Constraint Propragation Problem).
+# Programming challenge - The Paint Shop
 
 This project is an answer to the 'Paint Shop' programming challenge.
 
@@ -31,31 +31,33 @@ you can prepare. Each color can be either "gloss" (G) or "matte" (M).
 >
 > The first line specifies how many colors there are.
 >
-> Each subsequent line describes a customer.  For example, the first customer likes color 1 in matte, color 3 in gloss and color 5 in gloss.
+> Each subsequent line describes a customer.  For example, the first
+> customer likes color 1 in matte, color 3 in gloss and color 5 in gloss.
 >
-> Your program should read an input file like this, and print out either that it is impossible to satisfy all the customer, or describe, for each of the colors, whether it should be made gloss or matte.
+> Your program should read an input file like this, and print out either
+> that it is impossible to satisfy all the customer, or describe, for
+> each of the colors, whether it should be made gloss or matte.
 >
 > The output for the above file should be:
+>
 > `G G G G M`
 >
 > ...because all customers can be made happy by every paint being prepared as gloss except number 5
 
 ## Analysis of the problem
 
-This is an example of a (Constraint Satisfiability Problem)[https://en.wikipedia.org/wiki/Constraint_satisfaction_problem].
-```
-X=\{X_{1},\ldots ,X_{n}\} is a set of variables,
-{\displaystyle D=\{D_{1},\ldots ,D_{n}\}} D=\{D_{1},\ldots ,D_{n}\} is a set of the respective domains of values, and
-{\displaystyle C=\{C_{1},\ldots ,C_{m}\}} C=\{C_{1},\ldots ,C_{m}\} is a set of constraints.
-```
-
-```
-```
-
+This is an example of a [Constraint Satisfiability Problem](https://en.wikipedia.org/wiki/Constraint_satisfaction_problem).
 It could be defined as following.
 
-Let us call X1, X2, .., Xn the paints 1, 2, ..., n in Gloss finish,
-and ¬X1, ¬X2, ..., ¬Xn the paints 1, 2, ..., n in Matte finish.
+Let us call:
+ ```
+X1, X2, .., Xn the paints 1, 2, ..., n in Gloss finish,
+```
+and
+```
+¬X1, ¬X2, ..., ¬Xn the paints 1, 2, ..., n in Matte finish.
+```
+
 The example above in the definition of the problem could be defined as:
 
 ```
@@ -63,69 +65,45 @@ n = 5
 (¬X1 ∨ X3 ∨ X5) ∧ (X2 ∨ ¬X3 ∨ X4) ∧ (¬X5)
 ```
 
+We could try to use a [SAT solver](https://en.wikipedia.org/wiki/Category:SAT_solvers)
+but those are generally not optimised and expensive to run in practice.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+You can run directly:
+
+```
+mvnw package -DskipTests=true
+cd target
+java -jar paint-shop-1.0-SNAPSHOT.jar src/test/resources/example1.txt
+```
+
+You can also use your IDE and run the main class
+`me.david.paintshop.PaintShop` directly.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
+This project requires a JDK 1.8.
+It is a Maven project. You need a valid `mvn` installation or you may
+use the provided Maven wrapper `mvnw` (which requires a `JAVA_HOME`
+environment variable pointing to a JDK 1.8 home directory.
 
 ## Running the tests
 
-You can just run the suite of tests using `mvn clean test`.
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+You can just run the suite of tests using `mvn clean test` or use
+your IDE.
 
 ## Building and Running
 
 ```
-mvn package
+mvnw clean package
 java -jar target/paint-shop-1.0-SNAPSHOT.jar src/test/resources/example1.txt
-
 ```
-
 
 ## Deployment
 
-Manual deployment can be done by copying folder `lib` and jar file `paint-shop-*.jar` from `target` folder.
+Manual deployment can be done by copying folder `lib` and jar file
+`paint-shop-*.jar` from `target` folder.
 
 ## Built With
 

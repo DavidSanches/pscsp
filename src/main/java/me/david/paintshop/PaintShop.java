@@ -1,6 +1,8 @@
 package me.david.paintshop;
 
 import me.david.paintshop.exceptions.PaintShopError;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileNotFoundException;
 
@@ -10,6 +12,8 @@ import java.io.FileNotFoundException;
  * input file name as single argument.
  */
 public class PaintShop {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PaintShop.class);
 
     /**
      * Private constructor to avoid instantiation
@@ -22,9 +26,11 @@ public class PaintShop {
      * This is the main method used to launch the program.
      * <p>The program accepts an input file as a command line argument, and prints a result to standard out.</p>
      * <p>Usage: <code>java -jar file-in.txt</code></p>
-     * @param args
+     *
+     * @param args list of arguments. The program expect only one argument: a valid input file with number of paints
+     *             and list of customer tastes (See definition of the problem in file README.md.
      */
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) {
         if (args == null || args.length == 0 || args.length > 1) {
             PaintShopError error = PaintShopError.COMMAND_LINE_INVALID_ARGS;
             System.err.println(error.getDescription());
@@ -32,8 +38,16 @@ public class PaintShop {
         }
 
         String fileName = args[0];
-        System.out.println(new PaintShopProblem(fileName)
-                .solution());
-        System.exit(0);
+        final String solution;
+        try {
+            solution = new PaintShopProblem(fileName)
+                    .solution();
+            System.out.println(solution);
+            System.exit(0);
+        } catch (FileNotFoundException exception) {
+            LOGGER.error("Error running the PaintShop program.", exception);
+            System.err.println(exception.getMessage());
+            System.exit(1);
+        }
     }
 }

@@ -1,9 +1,6 @@
 package me.david.paintshop;
 
 import me.david.paintshop.exceptions.PaintShopInputRuntimeException;
-import me.david.paintshop.CustomerTaste;
-import me.david.paintshop.PaintFinish;
-import me.david.paintshop.PaintReference;
 import org.junit.jupiter.api.Test;
 
 import static me.david.paintshop.exceptions.PaintShopError.INVALID_CUSTOMER_TASTE;
@@ -24,7 +21,8 @@ class CustomerTasteTest {
     @Test
     void testParse_invalidPaintIndexGiven_shouldThrownException() {
         try {
-            CustomerTaste customerTaste = new CustomerTaste(5, "2G6M");
+            new CustomerTaste(5, "2G6M");
+
         } catch (Exception e) {
             assertThat(e)
                     .isInstanceOf(PaintShopInputRuntimeException.class)
@@ -37,7 +35,7 @@ class CustomerTasteTest {
     @Test
     void testParse_moreThanOneMatteGiven_shouldThrownException() {
         try {
-            CustomerTaste customerTaste = new CustomerTaste(5, "1M2G3G4M");
+            new CustomerTaste(5, "1M2G3G4M");
         } catch (Exception e) {
             assertThat(e)
                     .isInstanceOf(PaintShopInputRuntimeException.class)

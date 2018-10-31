@@ -26,13 +26,8 @@ public class PaintShopSolver {
     private final int nbPaints;
 
 
-    public PaintShopSolver(List<String> problemDefinition) {
-        Deque<String> definition = problemDefinition
-                .stream()
-                .map(line -> line.replace(" ", ""))
-                .collect(Collectors.toCollection(LinkedList::new));
-
-        String firstLine = definition.removeFirst();
+    PaintShopSolver(Deque<String> problemDefinition) {
+        String firstLine = problemDefinition.removeFirst();
         try {
             this.nbPaints = Integer.valueOf(firstLine);
             LOGGER.debug("nbPaints: {}", nbPaints);
@@ -42,7 +37,8 @@ public class PaintShopSolver {
                     INVALID_INPUT_FILE_NUMBER_OF_PAINTS,
                     String.format("First line '%s' is expected to be an integer.", firstLine), e);
         }
-        this.customerTastes = definition.stream()
+
+        this.customerTastes = problemDefinition.stream()
                 .map(repr -> new CustomerTaste(nbPaints, repr))
                 .sorted(Comparator.comparing(CustomerTaste::count))
                 .collect(Collectors.toList());

@@ -58,6 +58,7 @@ public class CustomerTaste {
      * <li>...against the number of paints</li>
      * <li>No customer will like more than one color in matte.</li>
      * </ul>
+     * This method is <code>final</code> as it is called from the constructor.
      */
     private final void validate() {
         int nbMattes = 0;
