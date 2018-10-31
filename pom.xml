@@ -36,8 +36,8 @@
 
     <dependencies>
         <dependency>
-<groupId>org.slf4j</groupId>
-    <artifactId>slf4j-simple</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
             <version>${slf4j-api.version}</version>
             <scope>runtime</scope>
         </dependency>
@@ -127,32 +127,32 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-			    <classpathPrefix>lib/</classpathPrefix>
-			    <mainClass>PaintShop</mainClass>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>me.david.paintshop.PaintShop</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-dependency-plugin</artifactId>
-    <version>2.9</version>
-    <executions>
-      <execution>
-        <id>copy-dependencies</id>
-        <phase>package</phase>
-        <goals>
-          <goal>copy-dependencies</goal>
-        </goals>
-        <configuration>
-          <outputDirectory>${project.build.directory}/lib</outputDirectory>
-          <overWriteReleases>false</overWriteReleases>
-          <overWriteSnapshots>false</overWriteSnapshots>
-          <overWriteIfNewer>true</overWriteIfNewer>
-        </configuration>
-      </execution>
-    </executions>
-  </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>

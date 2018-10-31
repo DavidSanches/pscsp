@@ -1,7 +1,12 @@
-import exceptions.PaintShopInputRuntimeException;
+package me.david.paintshop;
+
+import me.david.paintshop.exceptions.PaintShopInputRuntimeException;
+import me.david.paintshop.CustomerTaste;
+import me.david.paintshop.PaintFinish;
+import me.david.paintshop.PaintReference;
 import org.junit.jupiter.api.Test;
 
-import static exceptions.PaintShopError.INVALID_CUSTOMER_TASTE;
+import static me.david.paintshop.exceptions.PaintShopError.INVALID_CUSTOMER_TASTE;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 

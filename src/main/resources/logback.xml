@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
   <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-    <file>log/PaintShop.log</file>
+    <file>log/me.david.paintshop.PaintShop.log</file>
     <append>false</append>
     <encoder>
       <pattern>[%level] [%d{dd/MM/YYYY HH:mm:ss.SSS}] [%thread] [%logger] %message%n%xException</pattern>

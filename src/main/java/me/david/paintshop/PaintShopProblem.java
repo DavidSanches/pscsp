@@ -1,5 +1,7 @@
-import exceptions.PaintShopError;
-import exceptions.PaintShopInputRuntimeException;
+package me.david.paintshop;
+
+import me.david.paintshop.exceptions.PaintShopError;
+import me.david.paintshop.exceptions.PaintShopInputRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +18,7 @@ import java.util.Optional;
 
 
 /**
- * Class used for the PaintShop CSP to solve.
+ * Class used for the me.david.paintshop.PaintShop CSP to solve.
  * It accepts an paint order/problem filename as a parameter
  * Call method {@link #solution()} ()} to retrieve the (cheapest) solution
  * to the problem or the default {@link #NO_SOLUTION_FOUND} message.
@@ -28,7 +30,7 @@ public class PaintShopProblem {
 
     private static final String NO_SOLUTION_FOUND = "No solution exists";
 
-    private static Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
 
     private final File input;

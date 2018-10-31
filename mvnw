@@ -173,7 +173,7 @@ if [ -z "$JAVACMD" ] ; then
 fi
 
 if [ ! -x "$JAVACMD" ] ; then
-  echo "exceptions.PaintShopError: JAVA_HOME is not defined correctly." >&2
+  echo "me.david.paintshop.exceptions.PaintShopError: JAVA_HOME is not defined correctly." >&2
   echo "  We cannot execute $JAVACMD" >&2
   exit 1
 fi

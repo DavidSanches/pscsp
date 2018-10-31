@@ -1,10 +1,8 @@
-package exceptions;
+package me.david.paintshop.exceptions;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test fpr {@link PaintShopInputRuntimeException}

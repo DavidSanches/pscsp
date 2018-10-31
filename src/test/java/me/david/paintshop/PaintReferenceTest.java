@@ -1,3 +1,7 @@
+package me.david.paintshop;
+
+import me.david.paintshop.PaintFinish;
+import me.david.paintshop.PaintReference;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;

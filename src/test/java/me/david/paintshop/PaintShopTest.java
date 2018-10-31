@@ -1,7 +1,8 @@
-import org.junit.Ignore;
+package me.david.paintshop;
+
+import me.david.paintshop.PaintShop;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.*;
 
@@ -13,7 +14,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Unit test for main class PaintShop.
+ * Unit test for main class me.david.paintshop.PaintShop.
  * Uses SystemRules for instrumenting 'System'
  */
 public class PaintShopTest {
@@ -33,7 +34,7 @@ public class PaintShopTest {
         String[] args = null;
         PaintShop.main(args);
         assertThat(systemErrRule.getLogWithNormalizedLineSeparator())
-                .isEqualTo(exceptions.PaintShopError.COMMAND_LINE_INVALID_ARGS.getDescription() +
+                .isEqualTo(me.david.paintshop.exceptions.PaintShopError.COMMAND_LINE_INVALID_ARGS.getDescription() +
                         "\n");
     }
 

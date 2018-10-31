@@ -1,3 +1,5 @@
+package me.david.paintshop;
+
 /**
  * Represents one paint reference.
  * Composed of a paint index (1 based) and a {@link PaintFinish}

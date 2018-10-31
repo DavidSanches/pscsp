@@ -1,9 +1,11 @@
-import exceptions.PaintShopError;
+package me.david.paintshop;
+
+import me.david.paintshop.exceptions.PaintShopError;
 
 import java.io.FileNotFoundException;
 
 /**
- * This is the main class for the PaintShop programming challenge solution.
+ * This is the main class for the me.david.paintshop.PaintShop programming challenge solution.
  * You can launch it by calling the {@link #main} method with a valid
  * input file name as single argument.
  */

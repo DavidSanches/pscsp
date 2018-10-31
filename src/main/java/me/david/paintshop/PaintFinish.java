@@ -1,3 +1,5 @@
+package me.david.paintshop;
+
 /**
  * Used to manage the paint finish type: Gloss or Matte.
  * <p>Arbitrary cost is used for both, but Gloss is cheaper than Matte</p>

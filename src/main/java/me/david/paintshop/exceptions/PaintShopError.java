@@ -1,4 +1,4 @@
-package exceptions;
+package me.david.paintshop.exceptions;
 
 /**
  * Library of error code, i18n code and default english description

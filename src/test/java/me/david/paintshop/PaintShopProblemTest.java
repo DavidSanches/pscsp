@@ -1,3 +1,6 @@
+package me.david.paintshop;
+
+import me.david.paintshop.PaintShopProblem;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -5,12 +8,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Deque;
 import java.util.List;
-import java.util.StringJoiner;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class PaintShopProblemTest {
     Path testResourcesPath = Paths.get("src", "test", "resources");

@@ -1,9 +1,10 @@
+package me.david.paintshop;
+
 import java.util.Arrays;
 
 /**
  * This class manages String representation of a paint batches solution.
  * Used for getting the cost the paints, based on each {@link PaintFinish#cost()}
- * //TODO: check size against nbPaint?
  */
 public class PaintBatches {
     /**

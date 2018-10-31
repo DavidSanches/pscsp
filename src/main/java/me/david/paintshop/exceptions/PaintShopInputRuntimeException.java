@@ -1,12 +1,10 @@
-package exceptions;
+package me.david.paintshop.exceptions;
 
 /**
  * RuntimeException used for issue related to the input file.
  * The issue can be related to the format of the file or the syntax of the input.
  */
 public class PaintShopInputRuntimeException extends RuntimeException {
-
-    private PaintShopError err;
 
     public PaintShopInputRuntimeException(PaintShopError err, Throwable cause) {
         this(err, null, cause);
@@ -18,7 +16,6 @@ public class PaintShopInputRuntimeException extends RuntimeException {
 
     public PaintShopInputRuntimeException(PaintShopError err, String advice, Throwable cause) {
         super(concat(err, advice), cause);
-        this.err = err;
     }
 
     private static String concat(PaintShopError err, String advice) {

@@ -1,3 +1,6 @@
+package me.david.paintshop;
+
+import me.david.paintshop.PaintBatches;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;

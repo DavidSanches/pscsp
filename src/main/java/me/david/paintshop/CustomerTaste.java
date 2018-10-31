@@ -1,4 +1,6 @@
-import exceptions.PaintShopInputRuntimeException;
+package me.david.paintshop;
+
+import me.david.paintshop.exceptions.PaintShopInputRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -6,7 +8,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static exceptions.PaintShopError.INVALID_CUSTOMER_TASTE;
+import static me.david.paintshop.exceptions.PaintShopError.INVALID_CUSTOMER_TASTE;
 
 /**
  * Represents a customer taste, e.g. "1 G 2 M 4G"
