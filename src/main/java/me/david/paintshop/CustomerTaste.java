@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static me.david.paintshop.exceptions.PaintShopError.INVALID_CUSTOMER_TASTE;
@@ -33,13 +34,7 @@ public class CustomerTaste {
         try {
             this.paintReferences = Arrays
                     .stream(this.representation.split("(?<=[M|G])"))
-                    .map(pntRef -> {
-                        String trimmed = pntRef.trim();
-                        int length = trimmed.length();
-                        return new PaintReference(
-                                trimmed.substring(0, length - 1).trim(),
-                                trimmed.substring(length - 1));
-                    })
+                    .map(pntRef -> createPaintReference.apply(pntRef))
                     .collect(Collectors.toSet());
 
         } catch (Exception exception) {
@@ -51,6 +46,14 @@ public class CustomerTaste {
 
         this.validate();
     }
+
+    private Function<String, PaintReference> createPaintReference = (unTrimmed) -> {
+        String trimmed = unTrimmed.trim();
+        int length = trimmed.length();
+        return new PaintReference(
+                trimmed.substring(0, length - 1).trim(),
+                trimmed.substring(length - 1));
+    };
 
     /**
      * Validates the customer taste:
