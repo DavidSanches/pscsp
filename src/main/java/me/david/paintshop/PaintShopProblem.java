@@ -5,14 +5,11 @@ import me.david.paintshop.exceptions.PaintShopInputRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -85,17 +82,12 @@ public class PaintShopProblem {
      * @return the problem definition from the given file
      */
     Deque<String> problemDefinition() {
-        try (BufferedReader reader = Files.newBufferedReader(this.input.toPath(), DEFAULT_CHARSET)) {
-            Deque<String> result = new LinkedList<>();
-            for (; ; ) {
-                String line = reader.readLine();
-                if (line == null)
-                    break;
-                result.add(line);
-            }
-            return result;
-
-        } catch (IOException e) {
+        try (InputStream resource = new FileInputStream(this.input)) {
+            List<String> lines =
+                    new BufferedReader(new InputStreamReader(resource,
+                            StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
+            return new ArrayDeque<>(lines);
+        } catch (Exception e) {
             throw new PaintShopInputRuntimeException(
                     PaintShopError.INVALID_INPUT_FILE,
                     "Check that you can read the input file as " + DEFAULT_CHARSET, e);
