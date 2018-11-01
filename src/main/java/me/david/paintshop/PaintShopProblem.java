@@ -36,7 +36,7 @@ public class PaintShopProblem {
     PaintShopProblem(String filename) throws FileNotFoundException {
         this.input = new File(filename);
         if (!input.exists() || !input.isFile()) {
-            throw new FileNotFoundException("Given Filename is incorrect");
+            throw new FileNotFoundException("Not found given Filename '" + filename + "'.");
         }
     }
 

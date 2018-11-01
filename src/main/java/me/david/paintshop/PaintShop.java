@@ -34,7 +34,7 @@ public class PaintShop {
         if (args == null || args.length == 0 || args.length > 1) {
             PaintShopError error = PaintShopError.COMMAND_LINE_INVALID_ARGS;
             System.err.println(error.getDescription());
-            System.exit(1);
+            return;
         }
 
         String fileName = args[0];
@@ -42,12 +42,10 @@ public class PaintShop {
         try {
             solution = new PaintShopProblem(fileName)
                     .solution();
-            System.out.println(solution);
-            System.exit(0);
+            System.out.print(solution);
         } catch (FileNotFoundException exception) {
-            LOGGER.error("Error running the PaintShop program.", exception);
-            System.err.println(exception.getMessage());
-            System.exit(1);
+            LOGGER.error("Error running the PaintShop program: ", exception.getMessage());
+            System.err.print(exception.getMessage());
         }
     }
 }

@@ -2,7 +2,6 @@ package me.david.paintshop;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 
@@ -23,12 +22,8 @@ public class PaintShopTest {
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog();
 
-    @Rule
-    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
-
     @Test
     public void testMainMethod_NoArgGiven_shouldWriteErrorMessageInSystemErr() {
-        exit.expectSystemExitWithStatus(1);
         String[] args = null;
         PaintShop.main(args);
         assertThat(systemErrRule.getLogWithNormalizedLineSeparator())
@@ -38,13 +33,17 @@ public class PaintShopTest {
 
     @Test
     public void testMainMethod_validFilenameAsOnlyArgumentGiven_shouldWriteResultInSystemOut() {
-        exit.expectSystemExitWithStatus(0);
-
         Path testResourcesPath = Paths.get("src", "test", "resources");
         String[] args = new String[]{testResourcesPath.resolve("example1.txt").toString()};
         PaintShop.main(args);
-        String expected = "xxx";
-        assertThat(systemOutRule.getLog()).isEqualTo(expected);
+        assertThat(systemOutRule.getLog()).isEqualTo("G G G G M");
+    }
+
+    @Test
+    public void testMainMethod_unknownFilenameGiven_shouldCatchFNFEAndReturn1() {
+        String[] args = new String[]{"unknown file.txt"};
+        PaintShop.main(args);
+        assertThat(systemErrRule.getLog()).isEqualTo("Not found given Filename 'unknown file.txt'.");
     }
 
 }
