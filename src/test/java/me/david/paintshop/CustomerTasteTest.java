@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static me.david.paintshop.exceptions.PaintShopError.INVALID_CUSTOMER_TASTE;
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class CustomerTasteTest {
@@ -60,18 +61,16 @@ class CustomerTasteTest {
     }
 
     @Test
-    void testParse_invalidRepresentationsGiven_shouldThrowException() {
-        try {
-            new CustomerTaste(3, "4M").paintReferences();
-        } catch (Exception e) {
-            assertThat(e).isInstanceOf(PaintShopInputRuntimeException.class);
-        }
+    public void testParse_invalidRepresentationsGiven_shouldThrowException() {
+        assertThrows(PaintShopInputRuntimeException.class,
+                () -> {
+                    new CustomerTaste(3, "4M").paintReferences();
+                });
 
-        try {
-            new CustomerTaste(11, "1 M 10G 11M 12G").paintReferences();
-        } catch (Exception e) {
-            assertThat(e).isInstanceOf(PaintShopInputRuntimeException.class);
-        }
+        assertThrows(PaintShopInputRuntimeException.class,
+                () -> {
+                    new CustomerTaste(11, "1 M 10G 11M 12G").paintReferences();
+                });
     }
 
 
