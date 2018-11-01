@@ -1,5 +1,6 @@
 package me.david.paintshop;
 
+import me.david.paintshop.exceptions.PaintShopInputRuntimeException;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -9,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Deque;
 
+import static me.david.paintshop.exceptions.PaintShopError.INVALID_INPUT_FILE_NUMBER_OF_PAINTS;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 class PaintShopProblemTest {
@@ -19,16 +21,19 @@ class PaintShopProblemTest {
         testWithFileInAndExpectedContentFile("example1.txt",
                 "example1_expected.txt");
     }
+
     @Test
     void example1Given_shouldFindExpectedSolution2() throws IOException {
         testWithFileInAndExpectedContentFile("example2.txt",
                 "example2_expected.txt");
     }
+
     @Test
     void example1Given_shouldFindExpectedSolution3() throws IOException {
         testWithFileInAndExpectedContentFile("example3.txt",
                 "example3_expected.txt");
     }
+
     @Test
     void example1Given_shouldFindExpectedSolution4() throws IOException {
         testWithFileInAndExpectedContentFile("example4.txt",
@@ -65,5 +70,23 @@ class PaintShopProblemTest {
     void testSolutions_customerTastesNotIncludingAllBatches_shouldReturnOneBatchForEachColor() throws IOException {
         testWithFileInAndExpectedContentFile("example-not-all-paint-expressed.txt",
                 "example-not-all-paint-expressed_expected.txt");
+    }
+
+
+    @Test
+    void testParseNbPaints_notANumberGiven_shouldThrowAPaintShopInputRuntimeException() {
+        try {
+            Path input = testResourcesPath.resolve("example1.txt");
+
+            PaintShopProblem problemDefinition = new PaintShopProblem(input.toString());
+            problemDefinition.parseNbPaints("a");
+
+        } catch (Exception e) {
+            assertThat(e)
+                    .isInstanceOf(PaintShopInputRuntimeException.class)
+                    .hasMessage(INVALID_INPUT_FILE_NUMBER_OF_PAINTS.getDescription() +
+                            " - First line 'a' is expected to be an integer.")
+                    .hasCauseInstanceOf(NumberFormatException.class);
+        }
     }
 }

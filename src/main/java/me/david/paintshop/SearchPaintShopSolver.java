@@ -1,13 +1,13 @@
 package me.david.paintshop;
 
-import me.david.paintshop.exceptions.PaintShopInputRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
-
-import static me.david.paintshop.exceptions.PaintShopError.INVALID_INPUT_FILE_NUMBER_OF_PAINTS;
 
 /**
  * This is the main class used to solve the Problem.
@@ -25,24 +25,30 @@ public class SearchPaintShopSolver implements PaintShopSolver {
     private final List<CustomerTaste> customerTastes;
     private final int nbPaints;
 
+    /**
+     * Constructor.
+     * Takes the number of paints, and then the unsorted customer tastes.
+     * It assumes the customer tastes are unsorted and sort them by {@link CustomerTaste#count()}.
+     *
+     * @param nbPaints       the number of paints as an int
+     * @param customerTastes the customer tastes
+     */
+    SearchPaintShopSolver(int nbPaints, List<CustomerTaste> customerTastes) {
+        this.nbPaints = nbPaints;
 
-    SearchPaintShopSolver(Deque<String> problemDefinition) {
-        String firstLine = problemDefinition.removeFirst();
-        try {
-            this.nbPaints = Integer.valueOf(firstLine);
-            LOGGER.debug("nbPaints: {}", nbPaints);
-
-        } catch (NumberFormatException e) {
-            throw new PaintShopInputRuntimeException(
-                    INVALID_INPUT_FILE_NUMBER_OF_PAINTS,
-                    String.format("First line '%s' is expected to be an integer.", firstLine), e);
-        }
-
-        this.customerTastes = problemDefinition.stream()
-                .map(repr -> new CustomerTaste(nbPaints, repr))
+        this.customerTastes = customerTastes.stream()
                 .sorted(Comparator.comparing(CustomerTaste::count))
                 .collect(Collectors.toList());
-        LOGGER.debug("cust tastes: {}", this.customerTastes);
+        LOGGER.debug("sorted cust tastes: {}", this.customerTastes);
+    }
+
+    /**
+     * @return the sorted list of customer tastes as {@link String}
+     */
+    List<String> sortedCustomerTastes() {
+        return customerTastes.stream()
+                .map(CustomerTaste::toString)
+                .collect(Collectors.toList());
     }
 
 
@@ -104,13 +110,4 @@ public class SearchPaintShopSolver implements PaintShopSolver {
         }
     }
 
-    public List<String> getCustomerTastes() {
-        return customerTastes.stream()
-                .map(CustomerTaste::toString)
-                .collect(Collectors.toList());
-    }
-
-    public int getNbPaints() {
-        return nbPaints;
-    }
 }
