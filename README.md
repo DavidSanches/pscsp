@@ -146,7 +146,7 @@ You can run directly:
 ```
 mvnw package -DskipTests=true
 cd target
-java -jar paint-shop-1.0-SNAPSHOT.jar src/test/resources/example1.txt
+java -jar paint-shop-1.0.0-SNAPSHOT.jar ../src/test/resources/example1.txt
 ```
 
 You can also use your IDE and run the main class
@@ -178,7 +178,7 @@ or by doing a `mvn clean package`.
 
 ```
 mvnw clean package
-java -jar target/paint-shop-1.0-SNAPSHOT.jar src/test/resources/example1.txt
+java -jar target/paint-shop-1.0.0-SNAPSHOT.jar src/test/resources/example1.txt
 ```
 
 ## Deployment
