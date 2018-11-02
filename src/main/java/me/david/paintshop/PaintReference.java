@@ -29,8 +29,7 @@ public class PaintReference {
     }
 
     /**
-     * Returns a quick representation. Mainly used for debugging purpose
-     * @return
+     * @return a quick representation. Mainly used for debugging purpose
      */
     @Override
     public String toString() {

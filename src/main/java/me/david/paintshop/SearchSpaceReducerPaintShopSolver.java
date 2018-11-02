@@ -11,10 +11,9 @@ import static java.util.stream.Collectors.toSet;
 
 /**
  * This solver tries to reduce the search space before searching a solution.
- * <p>
- * <p>
  * <p>See README.md file for the full definition of the problem.</p>
- * <ul>Main constraints are:
+ * <p>Main constraints are:</p>
+ * <ul>
  * <li>There is just one batch for each color, and it's either gloss or matte.</li>
  * <li>For each customer, there is at least one color they like.</li>
  * <li>You make as few mattes as possible (because they are more expensive).</li>
@@ -49,7 +48,7 @@ public class SearchSpaceReducerPaintShopSolver implements PaintShopSolver {
      * Retrieves the reduced search space and either return an empty list
      * if empty, or the cheapest solution
      *
-     * @return
+     * @return The unique cheapest solution as a List
      */
     @Override
     public List<String> solutions() {
