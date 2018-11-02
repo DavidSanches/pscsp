@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * This solver tries to reduce the search space before searching a solution.
@@ -52,55 +54,22 @@ public class SearchSpaceReducerPaintShopSolver implements PaintShopSolver {
      */
     @Override
     public List<String> solutions() {
-        Map<Integer, Set<PaintFinish>> searchSpace = this.reducedSearchSpace();
+        Map<Integer, EnumSet<PaintFinish>> searchSpace = this.reducedSearchSpace();
         if (searchSpace.isEmpty()) {
             return Collections.emptyList();
         }
 
-        List<String> allCombinations = this.combine(this.nbPaints, searchSpace);
-        List<String> solutions = new LinkedList<>();
-        for (String combination : allCombinations) {
-            if (allCustomerTastesAreSatisfiedBy(combination)) {
-                solutions.add(combination);
-            }
-        }
-        LOGGER.debug("allCombinations - length: {}", allCombinations.size());
-        LOGGER.debug("solutions - length: {}", solutions.size());
-        return solutions;
+        //we have reduced the options. Now, go through each of the paint and retain
+        //the cheapest option. An EnumSet being ordered, the cheapest in our case
+        //is the first value found
+        String solution = IntStream
+                .rangeClosed(1, nbPaints)
+                .mapToObj(i -> searchSpace.get(i).iterator().next().name()) //take 1st, i.e. G, of each acceptable option
+                .collect(Collectors.joining(""));
+        LOGGER.debug("solution = {}", solution);
+        return Collections.singletonList(solution);
     }
 
-    List<String> combine(int index, Map<Integer, Set<PaintFinish>> m) {
-        if (index == 1) {
-            return m.get(index).stream()
-                    .map(paintFinish -> paintFinish.name())
-                    .collect(toList());
-        } else {
-            List<String> recur = combine(index - 1, m);
-            Set<PaintFinish> paintFinishes = m.get(index);
-            List<String> res = new LinkedList<>();
-            for (String pf : recur) {
-                for (PaintFinish c : paintFinishes) {
-                    res.add(pf + c);
-                }
-            }
-            return res;
-        }
-    }
-
-
-    /**
-     * return true if customer tastes are satisfied by a paint combination
-     * represented as a String.
-     * <p>Notice that the <code>allMatch</code> implementation returns early when a
-     * falsy expression is met.</p>
-     *
-     * @param combination string representation of the {@link #nbPaints} (e.g. GGGGM, GMGMG,...)
-     * @return true if all satisfied, else false
-     */
-    private boolean allCustomerTastesAreSatisfiedBy(String combination) {
-        return this.sortedCustomerTastes.stream()
-                .allMatch(ct -> ct.likes(combination));
-    }
 
     /**
      * generates the search space.
@@ -110,32 +79,48 @@ public class SearchSpaceReducerPaintShopSolver implements PaintShopSolver {
      *
      * @return the reduces search space
      */
-    Map<Integer, Set<PaintFinish>> reducedSearchSpace() {
-        Map<Integer, Set<PaintFinish>> searchspace = initialSearchSpace();
+    Map<Integer, EnumSet<PaintFinish>> reducedSearchSpace() {
+        Map<Integer, EnumSet<PaintFinish>> searchspace = initialSearchSpace();
 
         for (CustomerTaste taste : this.sortedCustomerTastes) {
             Set<PaintReference> paintReferences = taste.paintReferences();
-            if (paintReferences.size() == 1) {
-                PaintReference uniquePaintRef = paintReferences.iterator().next();
-                Set<PaintFinish> availableFinishOptions = searchspace.get(uniquePaintRef.index());
-                if (!availableFinishOptions.contains(uniquePaintRef.finish())) {
-                    //unsatisfiable!
-                    LOGGER.info("Unsatisfiable - {}", this.sortedCustomerTastes);
-                    return Collections.emptyMap();
-                }
-                availableFinishOptions.remove(uniquePaintRef.finish().opposite());
-            } else {//more than 1 paint ref, ensure that at least one of the them is available
-                boolean atLeastOneSatisfied = paintReferences.stream()
-                        .anyMatch(pf -> searchspace.get(pf.index()).contains(pf.finish()));
-                if (!atLeastOneSatisfied) {
-                    LOGGER.info("Insatifiable - {}", this.sortedCustomerTastes);
-                    return Collections.emptyMap();
-                }
+            if (!assignable(searchspace, paintReferences)) {
+                //unsatisfiable!
+                LOGGER.info("Unsatisfiable - {}", this.sortedCustomerTastes);
+                return Collections.emptyMap();
             }
         }
         return searchspace; //any value in this should be OK
     }
 
+    boolean assignable(Map<Integer, EnumSet<PaintFinish>> searchspace,
+                       Set<PaintReference> paintReferences) {
+        if (paintReferences.isEmpty()) {
+            //unsatisfiable!
+            return false;
+        }
+        if (paintReferences.size() == 1) {
+            PaintReference uniquePaintRef = paintReferences.iterator().next();
+            Set<PaintFinish> availableFinishOptions = searchspace.get(uniquePaintRef.index());
+            if (!availableFinishOptions.contains(uniquePaintRef.finish())) {
+                //unsatisfiable!
+                return false;
+            }
+            availableFinishOptions.remove(uniquePaintRef.finish().opposite());
+            return true;
+        } else {
+            //prune unsatisfiable taste
+            Set<PaintReference> remainingSatisfiableOptions = paintReferences.stream()
+                    .filter(ref -> searchspace.get(ref.index()).contains(ref.finish()))
+                    .collect(toSet());
+            LOGGER.debug("remainingSatisfiableOptions = {}", remainingSatisfiableOptions);
+            if (remainingSatisfiableOptions.equals(paintReferences)) {
+                return true;
+            } else {
+                return assignable(searchspace, remainingSatisfiableOptions);
+            }
+        }
+    }
 
     /**
      * Generates an initial search space.
@@ -143,8 +128,8 @@ public class SearchSpaceReducerPaintShopSolver implements PaintShopSolver {
      *
      * @return the initial search space (Paint index -> "GM")
      */
-    Map<Integer, Set<PaintFinish>> initialSearchSpace() {
-        Map<Integer, Set<PaintFinish>> searchspace = new HashMap();
+    Map<Integer, EnumSet<PaintFinish>> initialSearchSpace() {
+        Map<Integer, EnumSet<PaintFinish>> searchspace = new HashMap();
         for (int index = 1; index < (this.nbPaints + 1); index++) {
             searchspace.put(index, EnumSet.of(PaintFinish.G, PaintFinish.M));
         }

@@ -23,19 +23,19 @@ class PaintShopProblemTest {
     }
 
     @Test
-    void example1Given_shouldFindExpectedSolution2() throws IOException {
+    void example2Given_shouldFindExpectedSolution2() throws IOException {
         testWithFileInAndExpectedContentFile("example2.txt",
                 "example2_expected.txt");
     }
 
     @Test
-    void example1Given_shouldFindExpectedSolution3() throws IOException {
+    void example3Given_shouldFindExpectedSolution3() throws IOException {
         testWithFileInAndExpectedContentFile("example3.txt",
                 "example3_expected.txt");
     }
 
     @Test
-    void example1Given_shouldFindExpectedSolution4() throws IOException {
+    void example4Given_shouldFindExpectedSolution4() throws IOException {
         testWithFileInAndExpectedContentFile("example4.txt",
                 "example4_expected.txt");
     }
@@ -70,6 +70,17 @@ class PaintShopProblemTest {
     void testSolutions_customerTastesNotIncludingAllBatches_shouldReturnOneBatchForEachColor() throws IOException {
         testWithFileInAndExpectedContentFile("example-not-all-paint-expressed.txt",
                 "example-not-all-paint-expressed_expected.txt");
+    }
+
+    @Test
+    void testSolutions_example$alternative() throws IOException {
+        testWithFileInAndExpectedContentFile("example4alternative.txt",
+                "example4alternative_expected.txt");
+    }
+    @Test
+    void testSolutions_example$alternative2() throws IOException {
+        testWithFileInAndExpectedContentFile("example4alternative2.txt",
+                "example4alternative2_expected.txt");
     }
 
 

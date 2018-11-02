@@ -80,7 +80,7 @@ class SearchSpaceReducerPaintShopSolverTest {
                 .hasSize(3)
                 .contains(
                         entry(1, EnumSet.of(PaintFinish.M)), //G excluded
-                        entry(2, EnumSet.of(PaintFinish.G, PaintFinish.M)),
+                        entry(2, EnumSet.of(PaintFinish.G)), //G cheaper than M
                         entry(3, EnumSet.of(PaintFinish.M))); //G excluded
     }
 
@@ -134,7 +134,7 @@ class SearchSpaceReducerPaintShopSolverTest {
         SearchSpaceReducerPaintShopSolver solver = new SearchSpaceReducerPaintShopSolver(nbPaints, unsatisfiableCustomerTastes);
 
         assertThat(solver.solutions())
-                .hasSize(10)
+                .hasSize(1)
                 .contains("GGGGM");
     }
 }

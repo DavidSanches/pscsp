@@ -21,4 +21,11 @@ class PaintReferenceTest {
         assertThat(ref1.index()).isEqualTo(1);
         assertThat(ref1.finish()).isEqualTo(PaintFinish.M);
     }
+
+    @Test
+    void testToString() {
+        PaintReference ref1 = new PaintReference("123", "M");
+
+        assertThat(ref1.toString()).isEqualTo("123M");
+    }
 }
