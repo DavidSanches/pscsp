@@ -28,6 +28,15 @@ public class PaintReference {
         return finish;
     }
 
+    /**
+     * Returns a quick representation. Mainly used for debugging purpose
+     * @return
+     */
+    @Override
+    public String toString() {
+        return index + finish.name();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

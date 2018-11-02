@@ -13,6 +13,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static me.david.paintshop.exceptions.PaintShopError.INVALID_INPUT_FILE_NUMBER_OF_PAINTS;
 
 
 /**
@@ -58,24 +61,25 @@ public class PaintShopProblem {
      */
     private String cheapestSolution() {
         long startTime = System.nanoTime();
-        SearchPaintShopSolver solver = new SearchPaintShopSolver(
-                this.problemDefinition());
+
+        Deque<String> problemDefinition = this.problemDefinition();
+        int nbPaints = this.parseNbPaints(problemDefinition.removeFirst());
+        LOGGER.debug("nbPaints: {}", nbPaints);
+
+        List<CustomerTaste> unsortedCustomerTastes = problemDefinition.stream()
+                .map(repr -> new CustomerTaste(nbPaints, repr))
+                .collect(Collectors.toList());
+
+//        PaintShopSolver solver = new SearchPaintShopSolver(nbPaints, unsortedCustomerTastes);
+        PaintShopSolver solver = new SearchSpaceReducerPaintShopSolver(nbPaints, unsortedCustomerTastes);
         List<String> solutions = solver.solutions();
-
-        Optional<PaintBatches> cheapestSolution =
-                solutions.stream()
-                        .filter(Objects::nonNull)
-                        .map(PaintBatches::new)
-                        .sorted(Comparator.comparingInt(PaintBatches::cost)) //sort by cost "You make as few mattes as possible (because they are more expensive)"
-                        .findFirst();
-
-        final String solution = cheapestSolution
+        final String solution = this.cheapestSolution(solutions)
                 .map(PaintBatches::toString)
                 .orElse(NO_SOLUTION_FOUND);
         long endTime = System.nanoTime();
         long durationNs = endTime - startTime;//ns = nanoseconds (/1_000_000 to get ms)
         LOGGER.info("{\"elapsed_ns\": {},\"nbpaints\":{},\"solution\":\"{}\"}",
-                durationNs, solver.getNbPaints(), solution);
+                durationNs, nbPaints, solution);
 
         return solution;
     }
@@ -102,4 +106,36 @@ public class PaintShopProblem {
         }
     }
 
+    /**
+     * parse the number of paint from a String to an int
+     *
+     * @param number string value of the number of paints
+     * @return the int value
+     */
+    int parseNbPaints(String number) {
+        try {
+            return Integer.valueOf(number);
+
+        } catch (NumberFormatException e) {
+            throw new PaintShopInputRuntimeException(
+                    INVALID_INPUT_FILE_NUMBER_OF_PAINTS,
+                    String.format("First line '%s' is expected to be an integer.", number), e);
+        }
+    }
+
+    /**
+     * Returns the cheapest of the given solutions. It instantiate each String solution into a {@link PaintBatches}
+     * instance and uses the {@link PaintBatches#cost()} method for sorting.
+     * The cheapest option is considered the first, after the sorting.
+     *
+     * @param solutions list of String solutions
+     * @return an {@link Optional} solution as a {@link PaintBatches} instance
+     */
+    Optional<PaintBatches> cheapestSolution(List<String> solutions) {
+        return solutions.stream()
+                .filter(Objects::nonNull)
+                .map(PaintBatches::new)
+                .sorted(Comparator.comparingInt(PaintBatches::cost)) //sort by cost "You make as few mattes as possible (because they are more expensive)"
+                .findFirst();
+    }
 }

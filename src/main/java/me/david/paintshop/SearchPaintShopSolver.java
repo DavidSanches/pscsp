@@ -1,17 +1,21 @@
 package me.david.paintshop;
 
-import me.david.paintshop.exceptions.PaintShopInputRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
-import static me.david.paintshop.exceptions.PaintShopError.INVALID_INPUT_FILE_NUMBER_OF_PAINTS;
-
 /**
- * This is the main class used to solve the Problem.
- * <p>See README.mf file for the full definition.</p>
+ * This is a 'brute-force' search implementation of a solver: it generate all
+ * combinations of paint and iterate on each of them with the customer tastes.
+ * It sorts the list customer tastes by 'count' to try to exclude a paint
+ * combination as soon as possible.
+ *
+ * <p>See README.md file for the full definition of the problem.</p>
  * <ul>Main constraints are:
  * <li>There is just one batch for each color, and it's either gloss or matte.</li>
  * <li>For each customer, there is at least one color they like.</li>
@@ -22,27 +26,31 @@ public class SearchPaintShopSolver implements PaintShopSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchPaintShopSolver.class);
 
-    private final List<CustomerTaste> customerTastes;
     private final int nbPaints;
+    private final List<CustomerTaste> sortedCustomerTastes;
 
+    /**
+     * Constructor.
+     * Takes the number of paints, and then the unsorted customer tastes.
+     * It assumes the customer tastes are unsorted and sort them by {@link CustomerTaste#count()}.
+     *
+     * @param nbPaints       the number of paints as an int
+     * @param customerTastes the customer tastes
+     */
+    SearchPaintShopSolver(int nbPaints, List<CustomerTaste> customerTastes) {
+        this.nbPaints = nbPaints;
 
-    SearchPaintShopSolver(Deque<String> problemDefinition) {
-        String firstLine = problemDefinition.removeFirst();
-        try {
-            this.nbPaints = Integer.valueOf(firstLine);
-            LOGGER.debug("nbPaints: {}", nbPaints);
-
-        } catch (NumberFormatException e) {
-            throw new PaintShopInputRuntimeException(
-                    INVALID_INPUT_FILE_NUMBER_OF_PAINTS,
-                    String.format("First line '%s' is expected to be an integer.", firstLine), e);
-        }
-
-        this.customerTastes = problemDefinition.stream()
-                .map(repr -> new CustomerTaste(nbPaints, repr))
+        this.sortedCustomerTastes = customerTastes.stream()
                 .sorted(Comparator.comparing(CustomerTaste::count))
                 .collect(Collectors.toList());
-        LOGGER.debug("cust tastes: {}", this.customerTastes);
+        LOGGER.debug("sorted cust tastes: {}", this.sortedCustomerTastes);
+    }
+
+    /**
+     * @return the sorted list of customer tastes as {@link String}
+     */
+    List<CustomerTaste> sortedCustomerTastes() {
+        return sortedCustomerTastes;
     }
 
 
@@ -77,7 +85,7 @@ public class SearchPaintShopSolver implements PaintShopSolver {
      * @return true if all satisfied, else false
      */
     private boolean allCustomerTastesAreSatisfiedBy(String combination) {
-        return this.customerTastes.stream()
+        return this.sortedCustomerTastes.stream()
                 .allMatch(ct -> ct.likes(combination));
     }
 
@@ -104,13 +112,4 @@ public class SearchPaintShopSolver implements PaintShopSolver {
         }
     }
 
-    public List<String> getCustomerTastes() {
-        return customerTastes.stream()
-                .map(CustomerTaste::toString)
-                .collect(Collectors.toList());
-    }
-
-    public int getNbPaints() {
-        return nbPaints;
-    }
 }
