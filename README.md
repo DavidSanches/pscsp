@@ -13,7 +13,8 @@ java -jar paint-shop-1.0-SNAPSHOT.jar src/test/resources/example1.txt
 > You run a paint shop, and there are a few different colors of paint 
 you can prepare. Each color can be either "gloss" (G) or "matte" (M).
 >
-> You have a number of customers, and each have some colors they like, either gloss or matte. No customer will like more than one color in matte.
+> You have a number of customers, and each have some colors they like, either gloss or matte. No customer will like 
+more than one color in matte.
 >
 > You want to mix the colors, so that:
 > * There is just one batch for each color, and it's either gloss or matte.
@@ -50,7 +51,7 @@ This is an example of a [Constraint Satisfiability Problem](https://en.wikipedia
 It could be defined as following.
 
 Let us call:
- ```
+```
 X1, X2, .., Xn the paints 1, 2, ..., n in Gloss finish,
 ```
 and
@@ -65,25 +66,16 @@ n = 5
 (¬X1 ∨ X3 ∨ X5) ∧ (X2 ∨ ¬X3 ∨ X4) ∧ (¬X5)
 ```
 
-We could try to find ways to simplify (reduce) the expressions and
-explore [SAT solvers](https://en.wikipedia.org/wiki/Category:SAT_solvers)
-but here, the best feasible strategy seems more to use a search
-algorithm.
 
 ## Implementation
-I decided to use a basic search strategy: we just generate all
-possible combinations of paints and test each against all the consumer
-tastes.
-We then return the first cheapest found.
 
+### Brute-force search
+A first approach is to implement a brute-force search algorithm and then apply all the customer tastes against
+them. The customer tastes have to be sorted so that we start with the most restrictive.
+At the end, we just take the cheapest acceptable solution.
+See implementation in `SearchPaintShopSolver`.
 
-One easy way to improve the search is to try to sort the customer tastes
-from the most restrictive to the least restrictive in order to rule out
-a paint batch as early as possible.
-Class `SearchPaintShopSolver` sorts the customer tastes by
-`CustomerTaste::count` for that reason.
-
-### Time Complexity analysis
+#### Time Complexity analysis
 Let's assume we have `n` paints and `k` customers.
 Generating all combinations takes 2^n, so a complexity of `O(2^n)`.
 For each combination, we iterate over each of the `k` customers.
@@ -105,13 +97,46 @@ much relevant.
 
 Overall time complexity is made by the core problem solving: `O(k.2^n)`.
 
-### Space Complexity analysis
+#### Space Complexity analysis
 This analysis is very close to the time complexity: `O(k.2^n)` for the
 code problem solving.
 The Timsort Worst-case space complexity is `O(n)`.
 
 So, again, a global complexity of `O(k.2^n)`.
 
+### Search space reduction by constraint propagation
+A second approach is to consider the constraint propagation of the problem. We can start with a search space
+composed by a hashtable of the finishes available for each paint, and, successively for each customer tastes, once
+again sorted to start with the most restrictive ones, apply recursively the customer taste options.
+We can reduce here the search space for each paint, and detect unsatisfiable combinations. The final solution again
+is the cheapest of the remaining options.
+See implementation in `SearchSpaceReducerPaintShopSolver`
+
+#### Time Complexity analysis
+
+Let's assume we have `n` paints and `k` customers.
+Generating the initial search space takes an iteration on `n`: `O(n)`.
+Then we iterate on the customer tastes: `O(k)`
+The recursive call is made on `Ò(n)` (it depends on the number of paints.)
+
+All together, this is a complexity of `O(n.k)`
+
+For the last part, after the reduction we may add up an iteration on the paints to find the solution.
+
+
+## Structure and flow of the program
+
+The program's man class is PaintShop. The public static `main` method is the entry point.
+An instance of a `PaintShopProblem` is created, with the given file parameter.
+This class is in charge of reading the content of the problem definition file and
+dealing with most of the problem input errors.
+This class, `PaintShopProblem`, is in charge as well of instantiating a flavor of 
+ a `PaintShopSolver`, requesting the available solutions and returning the cheapest one.
+
+There is no configurable dependency injection the type of `PaintShopSolver` we want to instantiate.
+This version of the program is just instantiating a `SearchSpaceReducerPaintShopSolver` by default.
+The alternative implementation, `SearchPaintShopSolver` is actually more a legacy one that has 
+been keep for (mainly performance) comparison and that can be deprecated/deleted.
 
 ## Getting Started
 
