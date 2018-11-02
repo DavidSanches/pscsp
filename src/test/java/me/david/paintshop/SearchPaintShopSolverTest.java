@@ -19,9 +19,12 @@ class SearchPaintShopSolverTest {
         List<CustomerTaste> unsortedCustomerTastes = Stream.of("1G2G3M", "3M", "2G3M")
                 .map(repr -> new CustomerTaste(nbPaints, repr))
                 .collect(Collectors.toList());
-        SearchPaintShopSolver solver = new SearchPaintShopSolver(3, unsortedCustomerTastes);
+        SearchPaintShopSolver solver = new SearchPaintShopSolver(nbPaints, unsortedCustomerTastes);
 
-        assertThat(solver.sortedCustomerTastes())
+        assertThat(solver.sortedCustomerTastes()
+                .stream()
+                .map(CustomerTaste::toString)
+                .collect(Collectors.toList()))
                 .contains("3M", "2G3M", "1G2G3M");
     }
 

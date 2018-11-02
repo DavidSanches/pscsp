@@ -10,8 +10,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * This is the main class used to solve the Problem.
- * <p>See README.mf file for the full definition.</p>
+ * This is a 'brute-force' search implementation of a solver: it generate all
+ * combinations of paint and iterate on each of them with the customer tastes.
+ * It sorts the list customer tastes by 'count' to try to exclude a paint
+ * combination as soon as possible.
+ *
+ * <p>See README.md file for the full definition of the problem.</p>
  * <ul>Main constraints are:
  * <li>There is just one batch for each color, and it's either gloss or matte.</li>
  * <li>For each customer, there is at least one color they like.</li>
@@ -22,8 +26,8 @@ public class SearchPaintShopSolver implements PaintShopSolver {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SearchPaintShopSolver.class);
 
-    private final List<CustomerTaste> customerTastes;
     private final int nbPaints;
+    private final List<CustomerTaste> sortedCustomerTastes;
 
     /**
      * Constructor.
@@ -36,19 +40,17 @@ public class SearchPaintShopSolver implements PaintShopSolver {
     SearchPaintShopSolver(int nbPaints, List<CustomerTaste> customerTastes) {
         this.nbPaints = nbPaints;
 
-        this.customerTastes = customerTastes.stream()
+        this.sortedCustomerTastes = customerTastes.stream()
                 .sorted(Comparator.comparing(CustomerTaste::count))
                 .collect(Collectors.toList());
-        LOGGER.debug("sorted cust tastes: {}", this.customerTastes);
+        LOGGER.debug("sorted cust tastes: {}", this.sortedCustomerTastes);
     }
 
     /**
      * @return the sorted list of customer tastes as {@link String}
      */
-    List<String> sortedCustomerTastes() {
-        return customerTastes.stream()
-                .map(CustomerTaste::toString)
-                .collect(Collectors.toList());
+    List<CustomerTaste> sortedCustomerTastes() {
+        return sortedCustomerTastes;
     }
 
 
@@ -83,7 +85,7 @@ public class SearchPaintShopSolver implements PaintShopSolver {
      * @return true if all satisfied, else false
      */
     private boolean allCustomerTastesAreSatisfiedBy(String combination) {
-        return this.customerTastes.stream()
+        return this.sortedCustomerTastes.stream()
                 .allMatch(ct -> ct.likes(combination));
     }
 

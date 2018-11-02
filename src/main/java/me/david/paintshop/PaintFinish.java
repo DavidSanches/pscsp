@@ -6,7 +6,17 @@ package me.david.paintshop;
  */
 public enum PaintFinish {
 
-    G, M;
+    G {
+        @Override
+        public PaintFinish opposite() {
+            return M;
+        }
+    }, M {
+        @Override
+        public PaintFinish opposite() {
+            return G;
+        }
+    };
 
     PaintFinish() {
     }
@@ -29,4 +39,6 @@ public enum PaintFinish {
     public boolean matches(char c) {
         return this.name().equals(String.valueOf(c));
     }
+
+    public abstract PaintFinish opposite();
 }

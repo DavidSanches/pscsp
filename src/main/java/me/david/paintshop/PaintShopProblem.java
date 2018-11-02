@@ -70,7 +70,8 @@ public class PaintShopProblem {
                 .map(repr -> new CustomerTaste(nbPaints, repr))
                 .collect(Collectors.toList());
 
-        SearchPaintShopSolver solver = new SearchPaintShopSolver(nbPaints, unsortedCustomerTastes);
+//        PaintShopSolver solver = new SearchPaintShopSolver(nbPaints, unsortedCustomerTastes);
+        PaintShopSolver solver = new SearchSpaceReducerPaintShopSolver(nbPaints, unsortedCustomerTastes);
         List<String> solutions = solver.solutions();
         final String solution = this.cheapestSolution(solutions)
                 .map(PaintBatches::toString)
