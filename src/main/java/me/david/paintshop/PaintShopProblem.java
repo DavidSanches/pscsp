@@ -23,7 +23,6 @@ import static me.david.paintshop.exceptions.PaintShopError.INVALID_INPUT_FILE_NU
  * It accepts an paint order/problem filename as a parameter
  * Call method {@link #solution()} ()} to retrieve the (cheapest) solution
  * to the problem or the default {@link #NO_SOLUTION_FOUND} message.
- * <p>
  * <p>Internally, it uses a solver.</p>
  */
 public class PaintShopProblem {

@@ -16,7 +16,6 @@ import static me.david.paintshop.exceptions.PaintShopError.INVALID_CUSTOMER_TAST
  * parameter.</p>
  * <p>No customer will like more than one color in matte.</p>
  * <p>Tries to be as flexible as possible for the input. See unit test</p>
- * <p>
  * <p>A CustomeTaste contains 'paintReferences' a set of {@link PaintReference}</p>
  */
 public class CustomerTaste {

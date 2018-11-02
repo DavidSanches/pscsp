@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
  * combination as soon as possible.
  *
  * <p>See README.md file for the full definition of the problem.</p>
- * <ul>Main constraints are:
+ * <p>Main constraints are:</p>
+ * <ul>
  * <li>There is just one batch for each color, and it's either gloss or matte.</li>
  * <li>For each customer, there is at least one color they like.</li>
  * <li>You make as few mattes as possible (because they are more expensive).</li>
@@ -56,8 +57,8 @@ public class SearchPaintShopSolver implements PaintShopSolver {
 
     /**
      * Return a list of solutions to the problem.
-     * <br/>Each solution in a string representing the paints, e.g. 'GGG', 'GGM'.
-     * <br/>The index of each 'G/M' character is the 1-base index of the paint
+     * <br>Each solution in a string representing the paints, e.g. 'GGG', 'GGM'.
+     * <br>The index of each 'G/M' character is the 1-base index of the paint
      *
      * @return the list of solutions
      */
@@ -91,7 +92,7 @@ public class SearchPaintShopSolver implements PaintShopSolver {
 
     /**
      * Return all combinations of paints for the number of paints given.
-     * <br/>E.g.: [GGGGG, GGGGM, GGGMG, GGGMM, GGMGG,...]
+     * <br>E.g.: [GGGGG, GGGGM, GGGMG, GGGMM, GGMGG,...]
      *
      * @param nb number (count) of paints
      * @return a list of paint reference as a string

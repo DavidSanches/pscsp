@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class PaintBatches {
     /**
      * This is the <strong>short</strong> string representation of the paint batches.
-     * <br/>E.g. 'GGG, 'GGM'
+     * <br>E.g. 'GGG, 'GGM'
      */
     private final String finishesRepresentation;
 
@@ -31,7 +31,7 @@ public class PaintBatches {
 
     /**
      * Returns the paint combination formatted as expected.
-     * <br/>E.g. 'GGGGM' -> 'G G G G M'
+     * <br>E.g. 'GGGGM' -&gt; 'G G G G M'
      *
      * @return the combination in the expected format
      */

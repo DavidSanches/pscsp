@@ -2,10 +2,11 @@
 
 This project is an answer to the 'Paint Shop' programming challenge.
 
+For the impatient:
 ```
 mvn package -DskipTests=true
 cd target
-java -jar paint-shop-1.0-SNAPSHOT.jar src/test/resources/example1.txt
+java -jar paint-shop-<version>.jar <file_definition>
 ```
 
 ## Definition of the problem
@@ -162,6 +163,16 @@ environment variable pointing to a JDK 1.8 home directory.
 
 You can just run the suite of tests using `mvn clean test` or use
 your IDE.
+
+## Documentation
+
+Thie README.md file is really the documentation for the project.
+
+You can generate the Javadoc too by executing `mvn javadoc:javadoc`
+or by doing a `mvn clean package`.
+ The Javadoc is then available in folder `target/site/apidocs`.
+
+
 
 ## Building and Running
 
