@@ -8,7 +8,6 @@ import java.util.List;
 public interface PaintShopSolver {
 
     /**
-     *
      * @return a list valid solutions
      */
     List<String> solutions();

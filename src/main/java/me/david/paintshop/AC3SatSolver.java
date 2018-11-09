@@ -12,7 +12,8 @@ import static me.david.paintshop.PaintFinish.M;
 /**
  * Implementation of a <code>PaintShopSolver</code> using "Arc Consistency Algorithm #3"
  * algorithm.
- * @See https://en.wikipedia.org/wiki/AC-3_algorithm
+ *
+ * @see <a href="https://en.wikipedia.org/wiki/AC-3_algorithm">AC-3 algorithm</a>
  */
 public class AC3SatSolver implements PaintShopSolver {
     private static final Logger LOGGER = LoggerFactory.getLogger(AC3SatSolver.class);

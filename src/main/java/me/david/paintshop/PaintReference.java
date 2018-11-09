@@ -15,6 +15,7 @@ public class PaintReference {
     public PaintReference(String index, String finish) {
         this(Integer.valueOf(index), PaintFinish.valueOf(finish));
     }
+
     public PaintReference(int index, PaintFinish finish) {
         this.index = index;
         this.finish = finish;

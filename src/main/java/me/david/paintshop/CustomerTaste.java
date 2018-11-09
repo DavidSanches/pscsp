@@ -109,7 +109,7 @@ public class CustomerTaste {
                 .stream()
                 .sorted(Comparator.comparing(PaintReference::index))
                 .map(ref -> ref.index() + " " + ref.finish().name())
-                .collect( Collectors.joining( " " ) );
+                .collect(Collectors.joining(" "));
     }
 
     /**

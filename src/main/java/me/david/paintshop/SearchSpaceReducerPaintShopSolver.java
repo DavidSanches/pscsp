@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -129,7 +128,6 @@ public class SearchSpaceReducerPaintShopSolver implements PaintShopSolver {
     }
 
     /**
-     *
      * @param searchspace
      * @param paintReferences consituting the tas of the customer (e.g. 1M, 3G, ...)
      * @return

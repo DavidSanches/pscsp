@@ -8,8 +8,7 @@ public enum PaintShopError {
             "The program only accepts one argument, the input text file."),
     INVALID_INPUT_FILE(1, "Input file provided cannot be read."),
     INVALID_INPUT_FILE_NUMBER_OF_PAINTS(3, "Invalid number of paints."),
-    INVALID_CUSTOMER_TASTE(4, "Invalid color set customer taste."),
-    ;
+    INVALID_CUSTOMER_TASTE(4, "Invalid color set customer taste.");
 
     private final int code;
     private final String description;

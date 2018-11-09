@@ -2,13 +2,14 @@ package me.david.paintshop;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test for {@link SearchSpaceReducerPaintShopSolver}

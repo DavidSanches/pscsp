@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
  * combinations of paint and iterate on each of them with the customer tastes.
  * It sorts the list customer tastes by 'count' to try to exclude a paint
  * combination as soon as possible.
- *
  * <p>See README.md file for the full definition of the problem.</p>
  * <p>Main constraints are:</p>
  * <ul>

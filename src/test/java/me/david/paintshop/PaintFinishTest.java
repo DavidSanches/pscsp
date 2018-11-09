@@ -1,6 +1,5 @@
 package me.david.paintshop;
 
-import me.david.paintshop.PaintFinish;
 import org.junit.jupiter.api.Test;
 
 import static me.david.paintshop.PaintFinish.G;
