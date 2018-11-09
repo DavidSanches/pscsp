@@ -71,7 +71,7 @@ public class PaintShopProblem {
 
 //        PaintShopSolver solver = new SearchPaintShopSolver(nbPaints, unsortedCustomerTastes);
 //        PaintShopSolver solver = new SearchSpaceReducerPaintShopSolver(nbPaints, unsortedCustomerTastes);
-        PaintShopSolver solver = new SatSolver(nbPaints, unsortedCustomerTastes);
+        PaintShopSolver solver = new AC3SatSolver(nbPaints, unsortedCustomerTastes);
         List<String> solutions = solver.solutions();
         final String solution = this.cheapestSolution(solutions)
                 .map(PaintBatches::toString)

@@ -125,7 +125,7 @@ class SearchSpaceReducerPaintShopSolverTest {
     }
 
     @Test
-    void testSolutions_nonEmptyAfterReductionSearchSpace_shouldReturnXXX() {
+    void testSolutions_nonEmptyAfterReductionSearchSpace_shouldReturnAllPossibleSolutions() {
         int nbPaints = 5;
         List<CustomerTaste> unsatisfiableCustomerTastes = Stream.of(
                 "1 M 3 G 5 G", "2 G 3 M 4 G", "5 M")
@@ -134,7 +134,7 @@ class SearchSpaceReducerPaintShopSolverTest {
         SearchSpaceReducerPaintShopSolver solver = new SearchSpaceReducerPaintShopSolver(nbPaints, unsatisfiableCustomerTastes);
 
         assertThat(solver.solutions())
-                .hasSize(1)
-                .contains("GGGGM");
+                .hasSize(10)
+                .contains("GGGGM", "MGGGM", /* ..., */ "MGMMM", "MMMMM");
     }
 }

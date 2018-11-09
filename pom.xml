@@ -54,8 +54,7 @@
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <!--<artifactId>slf4j-nop</artifactId>-->
-            <artifactId>slf4j-simple</artifactId>
+            <artifactId>slf4j-nop</artifactId>
             <version>${slf4j-api.version}</version>
             <scope>runtime</scope>
         </dependency>
@@ -150,6 +149,7 @@
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>false</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
+                            <excludeScope>test</excludeScope>
                         </configuration>
                     </execution>
                 </executions>

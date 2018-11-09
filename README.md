@@ -110,7 +110,7 @@ A second approach is to consider the constraint propagation of the problem. We c
 composed by a hashtable of the finishes available for each paint, and, successively for each customer tastes, once
 again sorted to start with the most restrictive ones, apply recursively the customer taste options.
 We can reduce here the search space for each paint, and detect unsatisfiable combinations. The final solution again
-is the cheapest of the remaining options.
+is the cheapest of the remaining solutions.
 See implementation in `SearchSpaceReducerPaintShopSolver`
 
 #### Time Complexity analysis
@@ -124,6 +124,11 @@ All together, this is a complexity of `O(n.k)`
 
 For the last part, after the reduction we may add up an iteration on the paints to find the solution.
 
+### Arc Consistency Algorithm #3 - https://en.wikipedia.org/wiki/AC-3_algorithm
+A third implementation the 'PaintShopSolver' had been done, using "Arc Consistency Algorithm #3".
+The idea here is to first analyse the customer tastes and create a queue of arc consistencies between paint
+indices that will help track the constraints between paints.
+E.g. During analysing of customer tastes
 
 ## Structure and flow of the program
 

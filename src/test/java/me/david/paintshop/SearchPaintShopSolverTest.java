@@ -25,7 +25,7 @@ class SearchPaintShopSolverTest {
                 .stream()
                 .map(CustomerTaste::toString)
                 .collect(Collectors.toList()))
-                .contains("3M", "2G3M", "1G2G3M");
+                .contains("3 M", "2 G 3 M", "1 G 2 G 3 M");
     }
 
 

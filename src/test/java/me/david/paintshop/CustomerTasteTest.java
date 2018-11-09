@@ -13,7 +13,7 @@ class CustomerTasteTest {
     void testParse_stringTasteGiven_shouldValidateAndParsePaintReference() {
         CustomerTaste customerTaste = new CustomerTaste(5, "2G3M");
 
-        assertThat(customerTaste.toString()).isEqualTo("2G3M");
+        assertThat(customerTaste.toString()).isEqualTo("2 G 3 M");
         assertThat(customerTaste.paintReferences())
                 .contains(new PaintReference("2", "G"),
                         new PaintReference("3", "M"));
@@ -92,7 +92,7 @@ class CustomerTasteTest {
     @Test
     void testToString_shouldReturnTheInputStringRepresentation() {
         CustomerTaste customerTaste = new CustomerTaste(5, "2G3M");
-        assertThat(customerTaste.toString()).isEqualTo("2G3M");
+        assertThat(customerTaste.toString()).isEqualTo("2 G 3 M");
     }
 
     @Test
