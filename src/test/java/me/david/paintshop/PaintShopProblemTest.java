@@ -53,6 +53,12 @@ class PaintShopProblemTest {
                 "example5alternative_expected.txt");
     }
 
+    @Test
+    void example5alternative2Given_shouldFindExpectedSolution5alternative() throws IOException {
+        testWithFileInAndExpectedContentFile("example5alternative2.txt",
+                "example5alternative2_expected.txt");
+    }
+
     private void testWithFileInAndExpectedContentFile(String fin, String fexpected) throws IOException {
         Path input = testResourcesPath.resolve(fin);
         Path expectedFileName = testResourcesPath.resolve(fexpected);
