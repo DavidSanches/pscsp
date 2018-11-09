@@ -46,7 +46,8 @@ public class SearchSpaceReducerPaintShopSolver implements PaintShopSolver {
 
     /**
      * Retrieves the reduced search space and either return an empty list
-     * if empty, or the cheapest solution
+     * if empty (i.e. unsatisfiable), or run a search with CustomerTastes on the remaining options
+     * and finally return the cheapest option of any
      *
      * @return The unique cheapest solution as a List
      */
@@ -57,15 +58,51 @@ public class SearchSpaceReducerPaintShopSolver implements PaintShopSolver {
             return Collections.emptyList();
         }
 
-        //we have reduced the options. Now, go through each of the paint and retain
-        //the cheapest option. An EnumSet being ordered, the cheapest in our case
-        //is the first value found
-        String solution = IntStream
-                .rangeClosed(1, nbPaints)
-                .mapToObj(i -> searchSpace.get(i).iterator().next().name()) //take 1st, i.e. G, of each acceptable option
-                .collect(Collectors.joining(""));
-        LOGGER.debug("solution = {}", solution);
-        return Collections.singletonList(solution);
+        List<String> allCombinations = combine(nbPaints, searchSpace);
+        List<String> solutions = new LinkedList<>();
+        for (String combination : allCombinations) {
+            if (allCustomerTastesAreSatisfiedBy(combination)) {
+                solutions.add(combination);
+            }
+        }
+        LOGGER.debug("allCombinations - length: {}", allCombinations.size());
+        LOGGER.debug("solutions - length: {}", solutions.size());
+        return solutions;
+    }
+
+
+    /**
+     * return true if customer tastes are satisfied by a paint combination
+     * represented as a String.
+     * <p>Notice that the <code>allMatch</code> implementation returns early when a
+     * falsy expression is met.</p>
+     *
+     * @param combination string representation of the {@link #nbPaints} (e.g. GGGGM, GMGMG,...)
+     * @return true if all satisfied, else false
+     */
+    private boolean allCustomerTastesAreSatisfiedBy(String combination) {
+        return this.sortedCustomerTastes.stream()
+                .allMatch(ct -> ct.likes(combination));
+    }
+
+
+    private List<String> combine(int index, Map<Integer, EnumSet<PaintFinish>> csp) {
+        if (index == 0) {
+            return Collections.singletonList("");
+        } else {
+            List<String> recur = combine(index - 1, csp);
+            List<String> current = csp.get(index)
+                    .stream()
+                    .map(PaintFinish::name)
+                    .collect(Collectors.toList());
+            List<String> res = new LinkedList<>();
+            for (String c : current) {
+                for (String pf : recur) {
+                    res.add(pf + c);
+                }
+            }
+            return res;
+        }
     }
 
 
@@ -88,16 +125,22 @@ public class SearchSpaceReducerPaintShopSolver implements PaintShopSolver {
                 return Collections.emptyMap();
             }
         }
-        return searchspace; //any value in this should be OK
+        return searchspace; //does not contain invalid paint reference
     }
 
+    /**
+     *
+     * @param searchspace
+     * @param paintReferences consituting the tas of the customer (e.g. 1M, 3G, ...)
+     * @return
+     */
     boolean assignable(Map<Integer, EnumSet<PaintFinish>> searchspace,
                        Set<PaintReference> paintReferences) {
         if (paintReferences.isEmpty()) {
-            //unsatisfiable!
+            //unsatisfiable set of paint reference
             return false;
         }
-        if (paintReferences.size() == 1) {
+        if (paintReferences.size() == 1) {//customer only likes one Paint in one finish, check satisfiability + prune the other finish for that paint
             PaintReference uniquePaintRef = paintReferences.iterator().next();
             Set<PaintFinish> availableFinishOptions = searchspace.get(uniquePaintRef.index());
             if (!availableFinishOptions.contains(uniquePaintRef.finish())) {

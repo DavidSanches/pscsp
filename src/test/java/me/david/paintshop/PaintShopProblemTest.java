@@ -8,8 +8,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Deque;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
+import static me.david.paintshop.PaintFinish.G;
+import static me.david.paintshop.PaintFinish.M;
 import static me.david.paintshop.exceptions.PaintShopError.INVALID_INPUT_FILE_NUMBER_OF_PAINTS;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
@@ -38,6 +44,18 @@ class PaintShopProblemTest {
     void example4Given_shouldFindExpectedSolution4() throws IOException {
         testWithFileInAndExpectedContentFile("example4.txt",
                 "example4_expected.txt");
+    }
+
+
+    @Test
+    void example5Given_shouldFindExpectedSolution5() throws IOException {
+        testWithFileInAndExpectedContentFile("example5.txt",
+                "example5_expected.txt");
+    }
+    @Test
+    void example5alternativeGiven_shouldFindExpectedSolution5alternative() throws IOException {
+        testWithFileInAndExpectedContentFile("example5alternative.txt",
+                "example5alternative_expected.txt");
     }
 
     private void testWithFileInAndExpectedContentFile(String fin, String fexpected) throws IOException {

@@ -3,10 +3,7 @@ package me.david.paintshop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -98,8 +95,8 @@ public class SearchPaintShopSolver implements PaintShopSolver {
      * @return a list of paint reference as a string
      */
     private List<String> combinePaints(int nb) {
-        if (nb == 1) {
-            return Arrays.asList("G", "M");
+        if (nb == 0) {
+            return Collections.singletonList("");
         } else {
             List<String> recur = combinePaints(nb - 1);
             List<String> current = Arrays.asList("G", "M");

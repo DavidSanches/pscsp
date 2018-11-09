@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -104,7 +105,11 @@ public class CustomerTaste {
      */
     @Override
     public String toString() {
-        return this.representation;
+        return this.paintReferences
+                .stream()
+                .sorted(Comparator.comparing(PaintReference::index))
+                .map(ref -> ref.index() + " " + ref.finish().name())
+                .collect( Collectors.joining( " " ) );
     }
 
     /**
