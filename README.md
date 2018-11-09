@@ -128,7 +128,13 @@ For the last part, after the reduction we may add up an iteration on the paints 
 A third implementation the 'PaintShopSolver' had been done, using "Arc Consistency Algorithm #3".
 The idea here is to first analyse the customer tastes and create a queue of arc consistencies between paint
 indices that will help track the constraints between paints.
-E.g. During analysing of customer tastes
+
+See implementation in `AC3SatSolver`
+
+#### Time Complexity analysis
+as per wikipedia,
+> The algorithm has a worst-case time complexity of O(ed3) and space complexity of O(e), where e is the number of arcs 
+> and d is the size of the largest domain.
 
 ## Structure and flow of the program
 

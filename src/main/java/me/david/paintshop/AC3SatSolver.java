@@ -93,6 +93,16 @@ public class AC3SatSolver implements PaintShopSolver {
                 if (domainForI.isEmpty()) {
                     return false;
                 }
+                Set<Integer> allOtherVariables = new HashSet(); //all other paints related to this paint index through customer tastes
+                for (CustomerTaste customerTaste : customerTastes) {
+                    Set<Integer> allPaintIndexesReferencesByCustomerTaste = customerTaste.paintReferences()
+                            .stream()
+                            .map(paintReference -> paintReference.index())
+                            .collect(toSet());
+                    if (allPaintIndexesReferencesByCustomerTaste.contains(xi)) {
+                        allOtherVariables.addAll(allPaintIndexesReferencesByCustomerTaste);
+                    }
+                }
             }
         }
         return true;
