@@ -70,6 +70,23 @@ n = 5
 
 ## Implementation
 
+I ended up writing successively 3 implementations of
+the `PaintShopSolver`:
+1. Brute-force search - `SearchPaintShopSolver`
+2. Search space reduction by constraint propagation - `SearchSpaceReducerPaintShopSolver`
+3. Arc Consistency Algorithm #3 - `AC3SatSolver`
+
+They all limit the search space in a first stage, into a list of
+valid solutions.
+If this list is empty, then the problem is unsatisfiable.
+The list is finally sorted by cost and the cheapest solution is
+returned.
+
+Only the 3rd implementation, `AC3SatSolver`, is used in the
+final solution.
+
+I will still describe briefly the implentation of each solver.
+
 ### Brute-force search
 A first approach is to implement a brute-force search algorithm and then apply all the customer tastes against
 them. The customer tastes have to be sorted so that we start with the most restrictive.
